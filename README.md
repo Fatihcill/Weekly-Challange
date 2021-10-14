@@ -8,8 +8,11 @@
 - [Platforms](#platforms)
 
 ## About <a name = "about"></a>
-
 Weekly challanges with raylib_template.
+
+- ### WEEKS <a name = "WEEKS"></a>
+    - Week 1: orbit simulator
+    - Week 2: ???
 
 ## Requirements <a name = "requirements"></a>
 - C++17
