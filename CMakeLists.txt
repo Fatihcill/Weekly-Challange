@@ -25,7 +25,6 @@ add_executable(${PROJECT_NAME}
   "src/Settings/WinWrapper.cpp"
   "src/Pause/PauseWindow.cpp"
 
-  "src/Entities/Player.cpp"
   )
 
 target_include_directories(${PROJECT_NAME}
