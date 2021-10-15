@@ -1,21 +1,8 @@
 #include "GameState.hpp"
+#include "extras/raygui.h"
+#include "OrbitSimulator.hpp"
 
 void GameState::initVariables()
-{
-    camera.position = (Vector3){16.0f, 16.0f, 16.0f};
-    camera.target = (Vector3){0.0f, 0.0f, 0.0f};
-    camera.up = (Vector3){0.0f, 1.0f, 0.0f};
-    camera.fovy = 45.0f;
-    camera.projection = CAMERA_PERSPECTIVE;
-
-    SetCameraMode(camera, CAMERA_FREE);
-
-
-}
-
-
-
-void GameState::initPlayers()
 {
 }
 
@@ -23,7 +10,6 @@ GameState::GameState(StateData *state_data) : State(state_data)
 {
     std::cout << "GAME STARTING" << std::endl;
     this->initVariables();
-    this->initPlayers();
 }
 
 GameState::~GameState()
@@ -35,67 +21,28 @@ void GameState::updateInput(const float &dt)
 {
 }
 
-void GameState::updatePlayer()
-{
-}
-
 void GameState::update(const float &dt)
 {
     if (this->paused)
         return; //if the game paused. its return.
 
     this->updateInput(dt);
-    this->updatePlayer();
-
-    UpdateCamera(&camera);
-
-    earthRotation += (5.0f * rotationSpeed);
-    earthOrbitRotation += (365 / 360.0f * (5.0f * rotationSpeed) * rotationSpeed);
-    moonRotation += (2.0f * rotationSpeed);
-    moonOrbitRotation += (8.0f * rotationSpeed);
 }
 
 void GameState::render()
 {
-
-
     ClearBackground(RAYWHITE);
 
-    BeginMode3D(camera);
+    if (GuiButton((Rectangle){50.f, ((this->stateData->windowSettings.GetResolution().y - 200) / 2.f), 200, 200}, "ORBITSIM"))
+    {
+        this->states->push(new OrbitSimulator(this->stateData));
+    }
 
-    DrawSphere((Vector3){-1.0f, 0.0f, -2.0f}, 1.0f, GREEN);
-    rlPushMatrix();
-    rlScalef(sunRadius, sunRadius, sunRadius); // Scale Sun
-    DrawSphereBasic(GOLD);                     // Draw the Sun
-    rlPopMatrix();
-
-    rlPushMatrix();
-    rlRotatef(earthOrbitRotation, 0.0f, 1.0f, 0.0f); // Rotation for Earth orbit around Sun
-    rlTranslatef(earthOrbitRadius, 0.0f, 0.0f);      // Translation for Earth orbit
-
-    rlPushMatrix();
-    rlRotatef(earthRotation, 0.25, 1.0, 0.0);        // Rotation for Earth itself
-    rlScalef(earthRadius, earthRadius, earthRadius); // Scale Earth
-
-    DrawSphereBasic(BLUE); // Draw the Earth
-    rlPopMatrix();
-
-    rlRotatef(moonOrbitRotation, 0.0f, 1.0f, 0.0f); // Rotation for Moon orbit around Earth
-    rlTranslatef(moonOrbitRadius, 0.0f, 0.0f);      // Translation for Moon orbit
-    rlRotatef(moonRotation, 0.0f, 1.0f, 0.0f);      // Rotation for Moon itself
-    rlScalef(moonRadius, moonRadius, moonRadius);   // Scale Moon
-
-    DrawSphereBasic(LIGHTGRAY); // Draw the Moon
-    rlPopMatrix();
-
-    // Some reference elements (not affected by previous matrix transformations)
-    DrawCircle3D((Vector3){0.0f, 0.0f, 0.0f}, earthOrbitRadius, (Vector3){1, 0, 0}, 90.0f, Fade(RED, 0.5f));
-    DrawGrid(20, 1.0f);
-
-    EndMode3D();
     pauseWindow.render(stateData);
+    
 }
 
+/*
 void GameState::DrawSphereBasic(Color color)
 {
     int rings = 16;
@@ -134,4 +81,4 @@ void GameState::DrawSphereBasic(Color color)
         }
     }
     rlEnd();
-}
+}*/

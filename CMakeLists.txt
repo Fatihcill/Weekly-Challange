@@ -20,6 +20,8 @@ add_executable(${PROJECT_NAME}
   "src/States/State.cpp"
   "src/States/MainMenuState.cpp"
   "src/States/GameState.cpp"
+ 
+  "src/Levels/OrbitSimulator.cpp"
 
   "src/Settings/SettingsWindow.cpp"
   "src/Settings/WinWrapper.cpp"
@@ -34,6 +36,7 @@ target_include_directories(${PROJECT_NAME}
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Settings"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Pause"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Entities"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Levels"
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib)
