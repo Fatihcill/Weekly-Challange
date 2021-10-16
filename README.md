@@ -12,7 +12,7 @@ Weekly challanges with raylib_template.
 
 - ### WEEKS <a name = "WEEKS"></a>
     - Week 1: orbit simulator
-        - ![Alt Text](https://github.com/Fatihcil16/Weekly-Challange/tree/master/projectgifs/orbitsim.gif)
+        - ![Alt Text](https://github.com/Fatihcil16/Weekly-Challange/blob/master/projectgifs/orbitsim.gif?raw=true)
         
     - Week 2: ???
 
