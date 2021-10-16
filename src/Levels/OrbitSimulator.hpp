@@ -16,13 +16,12 @@ private:
     //custom Variables
     float sunrad, earthrad, moonrad;
     Vector2 earthpos, sunpos, moonpos;
-    float rotationSpeed = 0.2f;      // General system rotation speed
-    float earthRotation = 0.0f;      // Rotation of earth around itself (days) in degrees
+    float rotationSpeed = 0.05f;      // General system rotation speed
     float earthOrbitRotation = 0.0f; // Rotation of earth around the Sun (years) in degrees
-    float moonRotation = 0.0f;       // Rotation of moon around itself
     float moonOrbitRotation = 0.0f;  // Rotation of moon around earth in degrees
 
-
+    float earthsun_distance;
+    float moonearth_distance;
 public:
     OrbitSimulator(StateData *state_data);
     ~OrbitSimulator();
@@ -32,7 +31,6 @@ public:
     void render();
 
     //custom Functions
-    void updateOrbit();
     void drawOrbit();
 };
 
