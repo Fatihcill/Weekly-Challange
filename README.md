@@ -12,7 +12,7 @@ Weekly challanges with raylib_template.
 
 - ### WEEKS <a name = "WEEKS"></a>
     - Week 1: orbit simulator
-        - <img src="https://github.com/Fatihcil16/Weekly-Challange/blob/master/projectgifs/orbitsim.gif?raw=true" width="200" height="200" />
+        - <img src="https://github.com/Fatihcil16/Weekly-Challange/blob/master/projectgifs/orbitsim.gif?raw=true" width="300" height="200" />
         A simple simulation of sun, earth and moon.
         
         
