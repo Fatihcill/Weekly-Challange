@@ -19,12 +19,12 @@ void OrbitSimulator::updateInput(const float &dt)
 
 void OrbitSimulator::initVariables()
 {
-    sunrad = 100.f;
-    earthrad = 40.f;
+    sunrad = 75.f;
+    earthrad = 25.f;
     moonrad = 10.f;
-    earthpos = {this->stateData->windowSettings.GetResolution().x / 4.f, this->stateData->windowSettings.GetResolution().y / 2.f};
+    earthpos = {this->stateData->windowSettings.GetResolution().x / 6.f, this->stateData->windowSettings.GetResolution().y / 2.f};
     sunpos = {this->stateData->windowSettings.GetResolution().x / 2.f, this->stateData->windowSettings.GetResolution().y / 2.f};
-    moonpos = {this->stateData->windowSettings.GetResolution().x / 6.f, this->stateData->windowSettings.GetResolution().y / 2.f};
+    moonpos = {this->stateData->windowSettings.GetResolution().x / 10.f, this->stateData->windowSettings.GetResolution().y / 2.f};
 }
 
 void OrbitSimulator::drawOrbit()
@@ -50,6 +50,7 @@ void OrbitSimulator::update(const float &dt)
 
     moonOrbitRotation += (5.0f * rotationSpeed);
     moonpos = Vector2{earthpos.x + moonearth_distance * cos(moonOrbitRotation), earthpos.y + moonearth_distance * sin(moonOrbitRotation)};
+
 }
 
 void OrbitSimulator::render()
