@@ -18,31 +18,46 @@ void PlatformGame::initVariables()
     player.position = (Vector2){300, 280};
     player.speed = 0;
     player.canJump = false;
+    enemy_speed = 100;
 
-    e1 = Enemy{Vector2{1000, rand() % (375 - 249) + 250}, rand() % (500 - 399) + 400};
-    e2 = Enemy{Vector2{1200, rand() % (375 - 249) + 250}, rand() % (500 - 399) + 400};
-    e3 = Enemy{Vector2{1400, rand() % (375 - 249) + 250}, rand() % (500 - 399) + 400};
+    int space = virtualScreenWidth;
+    for (int i = 0; i < enemysize; i++)
+    {
+        enemies[i] = Enemy{Vector2{space, rand() % (375 - 249) + 250}, enemy_speed};
+        space += 300;
+    }
+    
 }
 
 void PlatformGame::updatePlayer(Player *player, EnvItem *envItems, int envItemsLength, float delta)
 {
-    e1.position.x -= e1.speed * delta;
-    e2.position.x -= e2.speed * delta;
-    e3.position.x -= e3.speed * delta;
-
-    if (e1.position.x < -25.f)
+    if (GAMEEND)
     {
-        e1 = Enemy{Vector2{800, rand() % (375 - 249) + 250}, rand() % (500 - 399) + 400};
-    }
-    if (e2.position.x < -25.f)
-    {
-        e2 = Enemy{Vector2{800, rand() % (375 - 249) + 250}, rand() % (500 - 399) + 400};
-    }
-    if (e3.position.x < -25.f)
-    {
-        e3 = Enemy{Vector2{800, rand() % (375 - 249) + 250}, rand() % (500 - 399) + 400};
+        return;
     }
 
+    playerrect = {player->position.x - 20, player->position.y - 40, 40, 40};
+    for (int i = 0; i < enemysize; i++)
+    {
+        enemies[i].position.x -= enemies[i].speed * delta;
+
+        if (circleRect(enemies[i].position.x, enemies[i].position.y, enemy_radius, playerrect.x, playerrect.y, playerrect.width, playerrect.width))
+        {
+            GAMEEND = true;
+        }
+        
+        
+        if (enemies[i].position.x < -10)
+        {
+            ++score;
+            enemy_speed = 100 + (5 * score);
+            enemies[i].speed = enemy_speed;
+            enemies[i].position = Vector2{1400, rand() % (375 - 249) + 250};
+        }
+
+        
+    }
+        
     /*if (IsKeyDown(KEY_LEFT))
       player->position.x -= PLAYER_HOR_SPD * delta;
     if (IsKeyDown(KEY_RIGHT))
@@ -80,6 +95,37 @@ void PlatformGame::updatePlayer(Player *player, EnvItem *envItems, int envItemsL
         player->canJump = true;
 }
 
+// CIRCLE/RECTANGLE
+bool PlatformGame::circleRect(float cx, float cy, float radius, float rx, float ry, float rw, float rh)
+{
+
+    // temporary variables to set edges for testing
+    float testX = cx;
+    float testY = cy;
+
+    // which edge is closest?
+    if (cx < rx)
+        testX = rx; // test left edge
+    else if (cx > rx + rw)
+        testX = rx + rw; // right edge
+    if (cy < ry)
+        testY = ry; // top edge
+    else if (cy > ry + rh)
+        testY = ry + rh; // bottom edge
+
+    // get distance from closest edges
+    float distX = cx - testX;
+    float distY = cy - testY;
+    float distance = sqrt((distX * distX) + (distY * distY));
+
+    // if the distance is less than the radius, collision!
+    if (distance <= radius)
+    {
+        return true;
+    }
+    return false;
+}
+
 void PlatformGame::updateInput(const float &dt)
 {
 
@@ -93,12 +139,19 @@ void PlatformGame::draw()
     for (int i = 0; i < envItemsLength; i++)
         DrawRectangleRec(envItems[i].rect, envItems[i].color);
 
-    Rectangle playerRect = {player.position.x - 20, player.position.y - 40, 40, 40};
-    DrawRectangleRec(playerRect, ORANGE);
+    DrawRectangleRec(playerrect, ORANGE);
+    DrawText(std::to_string(score).c_str(), virtualScreenWidth / 2 - 75, virtualScreenHeight / 2 - 150, 300, Color{255, 255, 255, 155});
 
-    DrawCircle(e1.position.x, e1.position.y, 20.f, RED);
-    DrawCircle(e2.position.x, e2.position.y, 20.f, RED);
-    DrawCircle(e3.position.x, e3.position.y, 20.f, RED);
+    for (int i = 0; i < enemysize; i++)
+    {
+        DrawCircle(enemies[i].position.x, enemies[i].position.y, enemy_radius, RED);
+    }
+    
+    if (GAMEEND)
+    {
+        DrawText("GAME OVER", 100, virtualScreenHeight / 2 - 50, 100, DARKPURPLE);
+    }
+    
 
     EndMode2D();
     EndTextureMode();

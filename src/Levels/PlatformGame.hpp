@@ -5,8 +5,8 @@
 #include "PauseWindow.hpp"
 #include "CameraManager.hpp"
 
-#define G 400
-#define PLAYER_JUMP_SPD 350.0f
+#define G 1300
+#define PLAYER_JUMP_SPD 750.0f
 #define PLAYER_HOR_SPD 200.0f
 
 typedef struct Player
@@ -33,6 +33,9 @@ private:
     const int virtualScreenWidth = 800;
     const int virtualScreenHeight = 600;
     static const int envItemsLength = 3;
+    static const int enemysize = 5, enemy_radius = 15;
+    int enemy_speed;
+    int score = 0;
     // setup pause
     // Functions
     void initVariables();
@@ -42,16 +45,19 @@ private:
     CameraManager cameramanager;
     RenderTexture2D target = LoadRenderTexture(virtualScreenWidth, virtualScreenHeight); // This is where we'll draw all our objects.
     float virtualratio;
-    
-    //player
-    Player player = {0};    
+
+    bool circleRect(float cx, float cy, float radius, float rx, float ry, float rw, float rh);
+
+    // player
+    Player player = {0};
+    Rectangle playerrect;
     void updatePlayer(Player *player, EnvItem *envItems, int envItemsLength, float delta);
     
-    Enemy e1, e2, e3;
+    Enemy enemies[enemysize];
     EnvItem envItems[envItemsLength] = {
         {{0, 400, 800, 600}, 1, DARKGRAY},
         {{0, 0, 800, 100}, 1, DARKGRAY}};
-
+    bool GAMEEND; 
 public :
      PlatformGame(StateData *state_data);
     ~PlatformGame();
