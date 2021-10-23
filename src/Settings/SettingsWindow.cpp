@@ -3,7 +3,7 @@
 #include <algorithm>
 
 #include "extras/raygui.h"
-#include "WinWrapper.hpp"
+#include "raylib.h"
 
 namespace raysettings
 {
@@ -160,11 +160,8 @@ namespace raysettings
 
             determinedState.m_numSupportedResolutions = supportedResolutions;
         }
-
-        //Resolution
-        int windowWidth{}, windowHeight{};
-        GetWindowSize(GetWindowHandle(), windowWidth, windowHeight);
-        determinedState.m_resolution = FindClosestViableResolution(windowWidth, windowHeight);
+        
+        determinedState.m_resolution = FindClosestViableResolution(GetScreenWidth(), GetScreenHeight());
 
         determinedState.m_vsyncActive = IsWindowState(FLAG_VSYNC_HINT);
         return determinedState;

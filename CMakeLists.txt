@@ -15,7 +15,8 @@ add_subdirectory(libs/raylib)
 add_executable(${PROJECT_NAME} 
   "src/main.cpp" 
   "src/Game.cpp"
-    
+  
+  "src/CameraManager.cpp"  
 
   "src/States/State.cpp"
   "src/States/MainMenuState.cpp"
@@ -25,7 +26,6 @@ add_executable(${PROJECT_NAME}
   "src/Levels/PlatformGame.cpp"
 
   "src/Settings/SettingsWindow.cpp"
-  "src/Settings/WinWrapper.cpp"
   "src/Pause/PauseWindow.cpp"
 
   )
