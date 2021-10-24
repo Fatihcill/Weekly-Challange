@@ -39,11 +39,11 @@ void GameState::render()
 {
     ClearBackground(RAYWHITE);
 
-    if (GuiButton((Rectangle){50.f, ((this->stateData->windowSettings.GetResolution().y - 200) / 2.f), 100, 100}, "ORBITSIM"))
+    if (GuiButton((Rectangle){50.f, ((this->stateData->virtualwindow_height - 200) / 2.f), 100, 100}, "ORBITSIM"))
     {
         this->states->push(new OrbitSimulator(this->stateData));
     }
-    if (GuiButton((Rectangle){250.f, ((this->stateData->windowSettings.GetResolution().y - 200) / 2.f), 100, 100}, "PLATFORM2D"))
+    if (GuiButton((Rectangle){250.f, ((this->stateData->virtualwindow_height - 200) / 2.f), 100, 100}, "PLATFORM2D"))
     {
         this->states->push(new PlatformGame(this->stateData));
     }

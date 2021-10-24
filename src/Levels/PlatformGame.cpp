@@ -31,7 +31,7 @@ void PlatformGame::initVariables()
         enemies[i] = Enemy{Vector2{space, rand() % (375 - 249) + 250}, enemy_speed};
         space += 300;
     }
-    
+    cameramanager.UpdateCameraCenter(Vector2{this->stateData->windowSettings.GetResolution().x / 2.f, this->stateData->windowSettings.GetResolution().y / 2.f});
 }
 
 void PlatformGame::updatePlayer(Player *player, EnvItem *envItems, int envItemsLength, float delta)
@@ -147,7 +147,6 @@ void PlatformGame::update(const float &dt)
     //---------------START----------------
     this->updateInput(dt);
     updatePlayer(&player, envItems, envItemsLength, dt);
-    cameramanager.UpdateCameraCenter(Vector2{this->stateData->windowSettings.GetResolution().x / 2.f, this->stateData->windowSettings.GetResolution().y / 2.f});
     // cameramanager.UpdateCameraCenter(player.position);
 }
 

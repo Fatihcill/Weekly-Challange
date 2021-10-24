@@ -10,11 +10,11 @@ namespace raysettings
 
     SettingsState DetermineState();
 
-    UIntPair const *FindClosestViableResolution(int p_windowWidth, int p_windowHeight)
+    Vector2 const *FindClosestViableResolution(int p_windowWidth, int p_windowHeight)
     {
         //Exact Match
-        UIntPair const *found = std::find_if(std::begin(c_resolutionPairs), std::end(c_resolutionPairs),
-                                             [&p_windowWidth, &p_windowHeight](UIntPair const &pair)
+        Vector2 const *found = std::find_if(std::begin(c_resolutionPairs), std::end(c_resolutionPairs),
+                                             [&p_windowWidth, &p_windowHeight](Vector2 const &pair)
                                              {
                                                  return pair.x == p_windowWidth && pair.y == p_windowHeight;
                                              });
@@ -22,8 +22,8 @@ namespace raysettings
         if (found == std::end(c_resolutionPairs))
         {
             //Closest smaller-than resolution
-            UIntPair const *lastViable = std::begin(c_resolutionPairs);
-            for (UIntPair const &pair : c_resolutionPairs)
+            Vector2 const *lastViable = std::begin(c_resolutionPairs);
+            for (Vector2 const &pair : c_resolutionPairs)
             {
                 if (pair.x <= p_windowWidth && pair.y <= p_windowHeight)
                 {
@@ -43,13 +43,13 @@ namespace raysettings
         }
     }
 
-    UIntPair const *FindClosestViableResolution(int p_monitor, int p_windowWidth, int p_windowHeight)
+    Vector2 const *FindClosestViableResolution(int p_monitor, int p_windowWidth, int p_windowHeight)
     {
         //Exact Match
         int const monitorWidth = GetMonitorWidth(p_monitor);
         int const monitorHeight = GetMonitorHeight(p_monitor);
-        UIntPair const *found = std::find_if(std::begin(c_resolutionPairs), std::end(c_resolutionPairs),
-                                             [&p_windowWidth, &p_windowHeight, &monitorWidth, &monitorHeight](UIntPair const &pair)
+        Vector2 const *found = std::find_if(std::begin(c_resolutionPairs), std::end(c_resolutionPairs),
+                                             [&p_windowWidth, &p_windowHeight, &monitorWidth, &monitorHeight](Vector2 const &pair)
                                              {
                                                  return pair.x == p_windowWidth && pair.y == p_windowHeight && pair.x <= monitorWidth && pair.y <= monitorHeight;
                                              });
@@ -57,8 +57,8 @@ namespace raysettings
         if (found == std::end(c_resolutionPairs))
         {
             //Closest smaller-than resolution
-            UIntPair const *lastViable = std::begin(c_resolutionPairs);
-            for (UIntPair const &pair : c_resolutionPairs)
+            Vector2 const *lastViable = std::begin(c_resolutionPairs);
+            for (Vector2 const &pair : c_resolutionPairs)
             {
                 if (pair.x <= p_windowWidth && pair.y <= p_windowHeight && pair.x <= monitorWidth && pair.y <= monitorHeight)
                 {
@@ -125,7 +125,7 @@ namespace raysettings
             int supportedResolutions = 0;
             for (; supportedResolutions < c_numResolutionPairs; supportedResolutions++)
             {
-                UIntPair res = c_resolutionPairs[supportedResolutions];
+                Vector2 res = c_resolutionPairs[supportedResolutions];
                 if (maxWidth < res.x || maxHeight < res.y)
                 {
                     break;
@@ -148,7 +148,7 @@ namespace raysettings
                 int targetRes = 0;
                 for (; targetRes < c_numResolutionPairs; targetRes++)
                 {
-                    UIntPair res = c_resolutionPairs[targetRes];
+                    Vector2 res = c_resolutionPairs[targetRes];
                     if (maxWidth < res.x || maxHeight < res.y)
                     {
                         break;
@@ -218,7 +218,7 @@ namespace raysettings
                 int supportedResolutions = 0;
                 for (; supportedResolutions < c_numResolutionPairs; supportedResolutions++)
                 {
-                    UIntPair res = c_resolutionPairs[supportedResolutions];
+                    Vector2 res = c_resolutionPairs[supportedResolutions];
                     if (maxWidth < res.x || maxHeight < res.y)
                     {
                         break;
@@ -241,7 +241,7 @@ namespace raysettings
                     int targetRes = 0;
                     for (; targetRes < c_numResolutionPairs; targetRes++)
                     {
-                        UIntPair res = c_resolutionPairs[targetRes];
+                        Vector2 res = c_resolutionPairs[targetRes];
                         if (maxWidth < res.x || maxHeight < res.y)
                         {
                             break;
@@ -509,7 +509,7 @@ namespace raysettings
         return m_state.m_fxVolumePercentage;
     }
 
-    UIntPair SettingsWindow::GetResolution() const
+    Vector2 SettingsWindow::GetResolution() const
     {
         return *m_state.m_resolution;
     }

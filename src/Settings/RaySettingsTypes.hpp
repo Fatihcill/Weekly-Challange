@@ -16,11 +16,5 @@ namespace raysettings
     using int64 = int64_t;
 
     using sizet = size_t;
-
-    struct UIntPair
-    {
-        uint32 x{};
-        uint32 y{};
-    };
 }
 #endif

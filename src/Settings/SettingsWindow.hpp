@@ -17,7 +17,7 @@ namespace raysettings
 
     inline constexpr uint32 c_numResolutionPairs = 18u;
 
-    inline constexpr UIntPair c_resolutionPairs[c_numResolutionPairs] =
+    inline constexpr Vector2 c_resolutionPairs[c_numResolutionPairs] =
         {
             {800, 600},
             {1024, 768},
@@ -104,7 +104,7 @@ namespace raysettings
         bool m_vsyncActive{};
 
         int m_numSupportedResolutions{};
-        UIntPair const *m_resolution = &(c_resolutionPairs[0]);
+        Vector2 const *m_resolution = &(c_resolutionPairs[0]);
         int m_activeDisplay{};
         int m_numDisplay{};
         WindowMode m_windowMode{};
@@ -128,7 +128,7 @@ namespace raysettings
         float GetMasterAudioLevel() const;
         float GetMusicAudioLevel() const;
         float GetFXAudioLevel() const;
-        UIntPair GetResolution() const;
+        Vector2 GetResolution() const;
 
     private:
         void UpdateState(SettingsState p_newState);
