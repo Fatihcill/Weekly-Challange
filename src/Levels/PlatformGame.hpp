@@ -3,7 +3,7 @@
 
 #include "State.hpp"
 #include "PauseWindow.hpp"
-#include "CameraManager.hpp"
+#include "CameraManager2D.hpp"
 
 #define G 1300
 #define PLAYER_JUMP_SPD 750.0f
@@ -30,8 +30,6 @@ typedef struct Enemy
 class PlatformGame : public State
 {
 private:
-    const int virtualScreenWidth = 800;
-    const int virtualScreenHeight = 600;
     static const int envItemsLength = 3;
     static const int enemysize = 5, enemy_radius = 15;
     int enemy_speed;
@@ -42,8 +40,8 @@ private:
     PauseWindow pauseWindow;
     // custom Functions
     static const short thickness = 150;
-    CameraManager cameramanager;
-    RenderTexture2D target = LoadRenderTexture(virtualScreenWidth, virtualScreenHeight); // This is where we'll draw all our objects.
+    CameraManager2D cameramanager;
+    RenderTexture2D target; // This is where we'll draw all our objects.
     float virtualratio;
 
     bool circleRect(float cx, float cy, float radius, float rx, float ry, float rw, float rh);

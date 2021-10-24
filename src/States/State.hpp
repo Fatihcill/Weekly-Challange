@@ -1,5 +1,5 @@
-#ifndef STATE_H
-#define STATE_H
+#ifndef STATE_HPP
+#define STATE_HPP
 
 #include "stdafx.hpp"
 #include "SettingsWindow.hpp"
@@ -11,8 +11,8 @@ class StateData
 public:
     //Variables
     std::stack<State *> *states;
-    //short window_width;
-    //short window_height;
+    short virtualwindow_width;
+    short virtualwindow_height;
     raysettings::SettingsWindow windowSettings{};
 };
 
@@ -23,11 +23,6 @@ protected:
     StateData *stateData;
     std::stack<State *> *states;
     bool quit;
-
-    //Resources
-    std::vector<Texture> textures;
-
-
 
 public:
     State(StateData *state_data);
@@ -46,6 +41,7 @@ public:
     virtual void updateInput(const float &dt) = 0;
     virtual void update(const float &dt);
     virtual void render() = 0;
+    virtual void draw() = 0;
 };
 
 #endif

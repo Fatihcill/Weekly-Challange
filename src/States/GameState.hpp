@@ -17,6 +17,7 @@ public:
     //Functions
     void updateInput(const float &dt);
     void update(const float &dt);
+    void draw();
     void render();
 };
 

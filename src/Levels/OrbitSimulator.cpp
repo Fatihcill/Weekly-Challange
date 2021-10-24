@@ -52,6 +52,10 @@ void OrbitSimulator::update(const float &dt)
     moonpos = Vector2{earthpos.x + moonearth_distance * cos(moonOrbitRotation), earthpos.y + moonearth_distance * sin(moonOrbitRotation)};
 
 }
+void OrbitSimulator::draw()
+{
+    //Draw If you use Camera
+}
 
 void OrbitSimulator::render()
 {

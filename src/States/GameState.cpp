@@ -30,6 +30,11 @@ void GameState::update(const float &dt)
     this->updateInput(dt);
 }
 
+void GameState::draw()
+{
+    // Draw if you use Camera
+}
+
 void GameState::render()
 {
     ClearBackground(RAYWHITE);

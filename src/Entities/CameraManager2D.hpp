@@ -1,16 +1,16 @@
-#ifndef CAMERAMANAGER_HPP
-#define CAMERAMANAGER_HPP
+#ifndef CAMERAMANAGER2D_HPP
+#define CAMERAMANAGER2D_HPP
 
 #include "raylib.h"
 #include "raymath.h"
 
-class CameraManager
+class CameraManager2D
 {
 private:
     /* data */
 public:
-    CameraManager();
-    ~CameraManager();
+    CameraManager2D();
+    ~CameraManager2D();
 
     void setupCamera();
     void UpdateCameraCenterInsideMap(Vector2 playerpos, Rectangle *map, int width, int height);

@@ -8,6 +8,7 @@ State::State(StateData *state_data)
     this->paused = false;
     this->stateData->windowSettings.InitState();
     this->stateData->windowSettings.Show(false);
+    std::cout << this->stateData->virtualwindow_height << std::endl;
 }
 
 State::~State()

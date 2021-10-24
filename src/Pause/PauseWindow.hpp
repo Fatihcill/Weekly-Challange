@@ -1,5 +1,5 @@
 #ifndef PAUSE_H
-#define PAUSE_H 
+#define PAUSE_H
 
 #include "State.hpp"
 

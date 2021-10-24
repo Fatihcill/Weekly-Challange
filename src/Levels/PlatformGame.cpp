@@ -4,6 +4,7 @@ PlatformGame::PlatformGame(StateData *state_data) : State(state_data)
 {
     std::cout << "PlatformGame START" << std::endl;
     this->initVariables();
+
 }
 
 PlatformGame::~PlatformGame()
@@ -14,13 +15,17 @@ PlatformGame::~PlatformGame()
 
 void PlatformGame::initVariables()
 {
+    GAMEEND = false;
+    this->target = LoadRenderTexture(stateData->virtualwindow_width, stateData->virtualwindow_height);
+    virtualratio = GetScreenWidth() / this->stateData->virtualwindow_height;
+
     cameramanager.setupCamera();
     player.position = (Vector2){300, 280};
     player.speed = 0;
     player.canJump = false;
     enemy_speed = 100;
 
-    int space = virtualScreenWidth;
+    int space = this->stateData->virtualwindow_width;
     for (int i = 0; i < enemysize; i++)
     {
         enemies[i] = Enemy{Vector2{space, rand() % (375 - 249) + 250}, enemy_speed};
@@ -131,43 +136,45 @@ void PlatformGame::updateInput(const float &dt)
 
 }
 
-void PlatformGame::draw() 
+void PlatformGame::update(const float &dt)
+{
+    if (this->paused)
+    {
+        virtualratio = GetScreenWidth() / this->stateData->virtualwindow_height;
+        return; // if the game paused. its return.
+    }
+
+    //---------------START----------------
+    this->updateInput(dt);
+    updatePlayer(&player, envItems, envItemsLength, dt);
+    cameramanager.UpdateCameraCenter(Vector2{this->stateData->windowSettings.GetResolution().x / 2.f, this->stateData->windowSettings.GetResolution().y / 2.f});
+    // cameramanager.UpdateCameraCenter(player.position);
+}
+
+void PlatformGame::draw()
 {
     BeginTextureMode(target);
     ClearBackground(GRAY);
     BeginMode2D(cameramanager.worldspacecamera);
+
     for (int i = 0; i < envItemsLength; i++)
         DrawRectangleRec(envItems[i].rect, envItems[i].color);
 
     DrawRectangleRec(playerrect, ORANGE);
-    DrawText(std::to_string(score).c_str(), virtualScreenWidth / 2 - 75, virtualScreenHeight / 2 - 150, 300, Color{255, 255, 255, 155});
+    DrawText(std::to_string(score).c_str(), this->stateData->virtualwindow_width / 2 - 75, this->stateData->virtualwindow_height / 2 - 150, 300, Color{255, 255, 255, 155});
 
     for (int i = 0; i < enemysize; i++)
     {
         DrawCircle(enemies[i].position.x, enemies[i].position.y, enemy_radius, RED);
     }
-    
+
     if (GAMEEND)
     {
-        DrawText("GAME OVER", 100, virtualScreenHeight / 2 - 50, 100, DARKPURPLE);
+        DrawText("GAME OVER", 100, this->stateData->virtualwindow_height / 2 - 50, 100, DARKPURPLE);
     }
-    
 
     EndMode2D();
     EndTextureMode();
-}
-
-void PlatformGame::update(const float &dt)
-{
-    if (this->paused)
-        return; // if the game paused. its return.
-
-    virtualratio = GetScreenWidth() / virtualScreenHeight;
-    //---------------START----------------
-    this->updateInput(dt);
-    updatePlayer(&player, envItems, envItemsLength, dt);
-    cameramanager.UpdateCameraCenter(Vector2{virtualScreenWidth / 2.f, virtualScreenHeight / 2.f});
-    draw();
 }
 
 void PlatformGame::render()
@@ -181,7 +188,7 @@ void PlatformGame::render()
     EndMode2D();
 
     DrawText(TextFormat("Screen resolution: %ix%i", GetScreenWidth(), GetScreenHeight()), 10, 10, 20, DARKBLUE);
-    DrawText(TextFormat("World resolution: %ix%i", virtualScreenWidth, virtualScreenHeight), 10, 40, 20, DARKGREEN);
+    DrawText(TextFormat("World resolution: %ix%i", this->stateData->virtualwindow_width, this->stateData->virtualwindow_height), 10, 40, 20, DARKGREEN);
     DrawFPS(GetScreenWidth() - 95, 10);
 
     //-------END---------

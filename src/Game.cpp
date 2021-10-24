@@ -39,6 +39,9 @@ void Game::initWindow()
 
 void Game::initStates()
 {
+    this->stateData.virtualwindow_width = window_width;
+    this->stateData.virtualwindow_height = window_height;
+
     this->stateData.states = &this->states;
     this->states.push(new MainMenuState(&this->stateData));
 }
@@ -82,6 +85,10 @@ void Game::update()
 
 void Game::render()
 {
+    //Draw
+    if (!this->states.empty())
+        this->states.top()->draw();
+
     BeginDrawing();
 
     //Render items

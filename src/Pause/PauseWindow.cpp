@@ -11,12 +11,11 @@ PauseWindow::~PauseWindow()
 
 void PauseWindow::render(StateData *currentStateData) 
 {
-
     if (currentStateData->states->top()->paused)
     {
         GuiFade(0.5f);
         GuiSetStyle(DEFAULT, BACKGROUND_COLOR, ColorToInt(BLACK));
-        GuiPanel(Rectangle{0, 0, (float)currentStateData->windowSettings.GetResolution().x, (float)currentStateData->windowSettings.GetResolution().y});
+        GuiPanel(Rectangle{0, 0, currentStateData->windowSettings.GetResolution().x, currentStateData->windowSettings.GetResolution().y});
         GuiSetStyle(DEFAULT, BACKGROUND_COLOR, 0xf5f5f5ff);
         GuiFade(1.f);
         if (GuiButton((Rectangle){(currentStateData->windowSettings.GetResolution().x - 100) / 2.f, ((currentStateData->windowSettings.GetResolution().y - 50) / 2.f) + (50 * -1.5f), 100, 50}, "Resume"))
