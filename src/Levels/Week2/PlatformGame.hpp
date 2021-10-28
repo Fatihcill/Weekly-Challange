@@ -10,7 +10,8 @@ class PlatformGame : public State
 {
 private:
     static const int envItemsLength = 3;
-    static const int enemysize = 5, enemy_radius = 15;
+    static const int enemysize = 5;
+    float enemy_radius = 15;
     int enemy_speed;
     int score = 0;
     // setup pause
@@ -23,7 +24,6 @@ private:
     RenderTexture2D target; // This is where we'll draw all our objects.
     float virtualratio;
 
-    Collision collisionManager{};
     // player
     Player player = {0};
     Rectangle playerrect;

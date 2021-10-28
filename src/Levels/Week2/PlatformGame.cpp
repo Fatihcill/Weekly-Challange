@@ -46,7 +46,7 @@ void PlatformGame::updatePlayer(Player *player, EnvItem *envItems, int envItemsL
     {
         enemies[i].position.x -= enemies[i].speed * delta;
 
-        if (collisionManager.collisionCircleRect(enemies[i].position.x, enemies[i].position.y, enemy_radius, playerrect.x, playerrect.y, playerrect.width, playerrect.width))
+        if (Collision::collisionCircleRect(&enemies[i].position.x, &enemies[i].position.y, &enemy_radius, &playerrect.x, &playerrect.y, &playerrect.width, &playerrect.width))
         {
             GAMEEND = true;
         }
