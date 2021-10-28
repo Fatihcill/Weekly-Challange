@@ -25,7 +25,7 @@ void PlatformGame::initVariables()
     player.canJump = false;
     enemy_speed = 100;
 
-    int space = this->stateData->virtualwindow_width;
+    float space = this->stateData->virtualwindow_width;
     for (int i = 0; i < enemysize; i++)
     {
         enemies[i] = Enemy{Vector2{space, rand() % (375 - 249) + 250}, enemy_speed};

@@ -23,7 +23,7 @@ private:
     RenderTexture2D target; // This is where we'll draw all our objects.
     float virtualratio;
 
-    Collision collisionManager;
+    Collision collisionManager{};
     // player
     Player player = {0};
     Rectangle playerrect;

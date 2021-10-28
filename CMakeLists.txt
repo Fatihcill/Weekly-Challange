@@ -15,6 +15,8 @@ add_subdirectory(libs/raylib)
 add_executable(${PROJECT_NAME} 
   "src/main.cpp" 
   "src/Game.cpp"
+
+  "src/Core/Collision.cpp"
   
   "src/Entities/CameraManager2D.cpp"  
   "src/Entities/AnimationManager.cpp"  
@@ -35,6 +37,7 @@ add_executable(${PROJECT_NAME}
 target_include_directories(${PROJECT_NAME}
   PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}/src"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Core"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/States"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Entities"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Settings"

@@ -1,3 +1,7 @@
+#ifndef COLLISION_HPP
+#define COLLISION_HPP
+
+#include "math.h"
 class Collision
 {
 private:
@@ -8,3 +12,4 @@ public:
     ~Collision();
 };
 
+#endif
