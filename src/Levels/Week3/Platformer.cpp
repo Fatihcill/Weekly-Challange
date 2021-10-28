@@ -1,19 +1,18 @@
-#include "PlatformGame.hpp"
+#include "Platformer.hpp"
 
-PlatformGame::PlatformGame(StateData *state_data) : State(state_data)
+Platformer::Platformer(StateData *state_data) : State(state_data)
 {
-    std::cout << "PlatformGame START" << std::endl;
+    std::cout << "Platformer START" << std::endl;
     this->initVariables();
-
 }
 
-PlatformGame::~PlatformGame()
+Platformer::~Platformer()
 {
     UnloadRenderTexture(target); // Unload render texture
-    std::cout << "PlatformGame FINISHED" << std::endl;
+    std::cout << "Platformer FINISHED" << std::endl;
 }
 
-void PlatformGame::initVariables()
+void Platformer::initVariables()
 {
     GAMEEND = false;
     this->target = LoadRenderTexture(stateData->virtualwindow_width, stateData->virtualwindow_height);
@@ -23,18 +22,11 @@ void PlatformGame::initVariables()
     player.position = (Vector2){300, 280};
     player.speed = 0;
     player.canJump = false;
-    enemy_speed = 100;
 
-    int space = this->stateData->virtualwindow_width;
-    for (int i = 0; i < enemysize; i++)
-    {
-        enemies[i] = Enemy{Vector2{space, rand() % (375 - 249) + 250}, enemy_speed};
-        space += 300;
-    }
     cameramanager.UpdateCameraCenter(Vector2{this->stateData->windowSettings.GetResolution().x / 2.f, this->stateData->windowSettings.GetResolution().y / 2.f});
 }
 
-void PlatformGame::updatePlayer(Player *player, EnvItem *envItems, int envItemsLength, float delta)
+void Platformer::updatePlayer(Player *player, EnvItem *envItems, int envItemsLength, float delta)
 {
     if (GAMEEND)
     {
@@ -42,31 +34,13 @@ void PlatformGame::updatePlayer(Player *player, EnvItem *envItems, int envItemsL
     }
 
     playerrect = {player->position.x - 20, player->position.y - 40, 40, 40};
-    for (int i = 0; i < enemysize; i++)
-    {
-        enemies[i].position.x -= enemies[i].speed * delta;
+    
 
-        if (circleRect(enemies[i].position.x, enemies[i].position.y, enemy_radius, playerrect.x, playerrect.y, playerrect.width, playerrect.width))
-        {
-            GAMEEND = true;
-        }
-        
-        
-        if (enemies[i].position.x < -10)
-        {
-            ++score;
-            enemy_speed = 100 + (5 * score);
-            enemies[i].speed = enemy_speed;
-            enemies[i].position = Vector2{1400, rand() % (375 - 249) + 250};
-        }
-
-        
-    }
-        
-    /*if (IsKeyDown(KEY_LEFT))
+    if (IsKeyDown(KEY_LEFT))
       player->position.x -= PLAYER_HOR_SPD * delta;
     if (IsKeyDown(KEY_RIGHT))
-        player->position.x += PLAYER_HOR_SPD * delta;*/
+        player->position.x += PLAYER_HOR_SPD * delta;
+        
     if (IsKeyDown(KEY_SPACE) && player->canJump)
     {
         player->speed = -PLAYER_JUMP_SPD;
@@ -100,43 +74,12 @@ void PlatformGame::updatePlayer(Player *player, EnvItem *envItems, int envItemsL
         player->canJump = true;
 }
 
-// CIRCLE/RECTANGLE
-bool PlatformGame::circleRect(float cx, float cy, float radius, float rx, float ry, float rw, float rh)
+
+void Platformer::updateInput(const float &dt)
 {
-
-    // temporary variables to set edges for testing
-    float testX = cx;
-    float testY = cy;
-
-    // which edge is closest?
-    if (cx < rx)
-        testX = rx; // test left edge
-    else if (cx > rx + rw)
-        testX = rx + rw; // right edge
-    if (cy < ry)
-        testY = ry; // top edge
-    else if (cy > ry + rh)
-        testY = ry + rh; // bottom edge
-
-    // get distance from closest edges
-    float distX = cx - testX;
-    float distY = cy - testY;
-    float distance = sqrt((distX * distX) + (distY * distY));
-
-    // if the distance is less than the radius, collision!
-    if (distance <= radius)
-    {
-        return true;
-    }
-    return false;
 }
 
-void PlatformGame::updateInput(const float &dt)
-{
-
-}
-
-void PlatformGame::update(const float &dt)
+void Platformer::update(const float &dt)
 {
     if (this->paused)
     {
@@ -150,7 +93,7 @@ void PlatformGame::update(const float &dt)
     // cameramanager.UpdateCameraCenter(player.position);
 }
 
-void PlatformGame::draw()
+void Platformer::draw()
 {
     BeginTextureMode(target);
     ClearBackground(GRAY);
@@ -162,10 +105,7 @@ void PlatformGame::draw()
     DrawRectangleRec(playerrect, ORANGE);
     DrawText(std::to_string(score).c_str(), this->stateData->virtualwindow_width / 2 - 75, this->stateData->virtualwindow_height / 2 - 150, 300, Color{255, 255, 255, 155});
 
-    for (int i = 0; i < enemysize; i++)
-    {
-        DrawCircle(enemies[i].position.x, enemies[i].position.y, enemy_radius, RED);
-    }
+ 
 
     if (GAMEEND)
     {
@@ -176,14 +116,13 @@ void PlatformGame::draw()
     EndTextureMode();
 }
 
-void PlatformGame::render()
+void Platformer::render()
 {
     ClearBackground(BLACK);
     BeginMode2D(cameramanager.screenspacecamera);
     DrawTexturePro(target.texture, Rectangle{0.0f, 0.0f, (float)target.texture.width, -(float)target.texture.height},
                    Rectangle{-virtualratio, -virtualratio, GetScreenWidth() + (virtualratio * 2), GetScreenHeight() + (virtualratio * 2)},
-                   Vector2{0, 0}, 0.f, WHITE
-                   );
+                   Vector2{0, 0}, 0.f, WHITE);
     EndMode2D();
 
     DrawText(TextFormat("Screen resolution: %ix%i", GetScreenWidth(), GetScreenHeight()), 10, 10, 20, DARKBLUE);

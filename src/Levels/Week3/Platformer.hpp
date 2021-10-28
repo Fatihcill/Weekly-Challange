@@ -1,40 +1,19 @@
-#ifndef PLATFORMGAME_HPP
-#define PLATFORMGAME_HPP
+#ifndef PLATFORMER_HPP
+#define PLATFORMER_HPP
 
 #include "State.hpp"
 #include "PauseWindow.hpp"
 #include "CameraManager2D.hpp"
+#include "AnimationManager.hpp"
+#include "Objects.hpp"
 
-#define G 1300
-#define PLAYER_JUMP_SPD 750.0f
-#define PLAYER_HOR_SPD 200.0f
-
-typedef struct Player
-{
-    Vector2 position;
-    float speed;
-    bool canJump;
-} Player;
-
-typedef struct EnvItem
-{
-    Rectangle rect;
-    int blocking;
-    Color color;
-} EnvItem;
-typedef struct Enemy
-{
-    Vector2 position;
-    int speed;
-} Enemy;
-class PlatformGame : public State
+class Platformer : public State
 {
 private:
     static const int envItemsLength = 3;
-    static const int enemysize = 5, enemy_radius = 15;
-    int enemy_speed;
     int score = 0;
-    // setup pause
+    AnimationManager::Animation idle{LoadTexture(ASSETS_PATH "characters/herochar/herochar_idle_anim_strip_4.png"), 4};
+    AnimationManager::Animation run{LoadTexture(ASSETS_PATH "characters/herochar/herochar_run_anim_strip_6.png"), 6};
     // Functions
     void initVariables();
     PauseWindow pauseWindow;
@@ -44,21 +23,20 @@ private:
     RenderTexture2D target; // This is where we'll draw all our objects.
     float virtualratio;
 
-    bool circleRect(float cx, float cy, float radius, float rx, float ry, float rw, float rh);
 
     // player
     Player player = {0};
     Rectangle playerrect;
     void updatePlayer(Player *player, EnvItem *envItems, int envItemsLength, float delta);
-    
-    Enemy enemies[enemysize];
+
     EnvItem envItems[envItemsLength] = {
         {{0, 400, 800, 600}, 1, DARKGRAY},
         {{0, 0, 800, 100}, 1, DARKGRAY}};
-    bool GAMEEND; 
-public :
-     PlatformGame(StateData *state_data);
-    ~PlatformGame();
+    bool GAMEEND;
+
+public:
+    Platformer(StateData *state_data);
+    ~Platformer();
     // Functions
     void updateInput(const float &dt);
     void update(const float &dt);

@@ -11,6 +11,11 @@ PauseWindow::~PauseWindow()
 
 void PauseWindow::render(StateData *currentStateData) 
 {
+    if (IsKeyPressed(KEY_ESCAPE))
+    {
+        currentStateData->states->top()->paused = !currentStateData->states->top()->paused;
+    }
+    
     if (currentStateData->states->top()->paused)
     {
         GuiFade(0.5f);

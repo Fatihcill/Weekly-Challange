@@ -17,13 +17,15 @@ add_executable(${PROJECT_NAME}
   "src/Game.cpp"
   
   "src/Entities/CameraManager2D.cpp"  
+  "src/Entities/AnimationManager.cpp"  
 
   "src/States/State.cpp"
   "src/States/MainMenuState.cpp"
   "src/States/GameState.cpp"
  
-  "src/Levels/OrbitSimulator.cpp"
-  "src/Levels/PlatformGame.cpp"
+  "src/Levels/Week1/OrbitSimulator.cpp"
+  "src/Levels/Week2/PlatformGame.cpp"
+  "src/Levels/Week3/Platformer.cpp"
 
   "src/Settings/SettingsWindow.cpp"
   "src/Pause/PauseWindow.cpp"

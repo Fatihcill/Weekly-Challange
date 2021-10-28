@@ -1,7 +1,9 @@
 #include "GameState.hpp"
 #include "extras/raygui.h"
-#include "OrbitSimulator.hpp"
-#include "PlatformGame.hpp"
+
+#include "Week1/OrbitSimulator.hpp" 
+#include "Week2/PlatformGame.hpp"   
+#include "Week3/Platformer.hpp"     
 
 void GameState::initVariables()
 {
@@ -47,6 +49,11 @@ void GameState::render()
     {
         this->states->push(new PlatformGame(this->stateData));
     }
+    if (GuiButton((Rectangle){450.f, ((this->stateData->virtualwindow_height - 200) / 2.f), 100, 100}, "PLATFORM2D"))
+    {
+        //this->states->push(new Platformer(this->stateData));
+    }
+
     pauseWindow.render(stateData);
     
 }
