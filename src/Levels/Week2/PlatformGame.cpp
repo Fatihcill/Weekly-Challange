@@ -28,7 +28,7 @@ void PlatformGame::initVariables()
     float space = this->stateData->virtualwindow_width;
     for (int i = 0; i < enemysize; i++)
     {
-        enemies[i] = Enemy{Vector2{space, rand() % (375 - 249) + 250}, enemy_speed};
+        enemies[i] = Enemy{Vector2{space, float(rand() % (375 - 249) + 250)}, enemy_speed};
         space += 300;
     }
     cameramanager.UpdateCameraCenter(Vector2{this->stateData->windowSettings.GetResolution().x / 2.f, this->stateData->windowSettings.GetResolution().y / 2.f});
@@ -51,16 +51,13 @@ void PlatformGame::updatePlayer(Player *player, EnvItem *envItems, int envItemsL
             GAMEEND = true;
         }
         
-        
         if (enemies[i].position.x < -10)
         {
             ++score;
             enemy_speed = 100 + (5 * score);
             enemies[i].speed = enemy_speed;
-            enemies[i].position = Vector2{1400, rand() % (375 - 249) + 250};
+            enemies[i].position = Vector2{1400, float(rand() % (375 - 249) + 250)};
         }
-
-        
     }
         
     /*if (IsKeyDown(KEY_LEFT))
