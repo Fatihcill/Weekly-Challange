@@ -46,7 +46,7 @@ void PlatformGame::updatePlayer(Player *player, EnvItem *envItems, int envItemsL
     {
         enemies[i].position.x -= enemies[i].speed * delta;
 
-        if (Collision::collisionCircleRect(&enemies[i].position.x, &enemies[i].position.y, &enemy_radius, &playerrect.x, &playerrect.y, &playerrect.width, &playerrect.width))
+        if (CheckCollisionCircleRec(enemies[i].position, enemy_radius, playerrect))
         {
             GAMEEND = true;
         }
@@ -75,11 +75,7 @@ void PlatformGame::updatePlayer(Player *player, EnvItem *envItems, int envItemsL
     {
         EnvItem *ei = envItems + i;
         Vector2 *p = &(player->position);
-        if (ei->blocking &&
-            ei->rect.x <= p->x &&
-            ei->rect.x + ei->rect.width >= p->x &&
-            ei->rect.y >= p->y &&
-            ei->rect.y < p->y + player->speed * delta)
+        if (ei->blocking && CheckCollisionRecs(ei->rect, playerrect))
         {
             hitObstacle = 1;
             player->speed = 0.0f;

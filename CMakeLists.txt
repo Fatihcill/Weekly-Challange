@@ -15,8 +15,6 @@ add_subdirectory(libs/raylib)
 add_executable(${PROJECT_NAME} 
   "src/main.cpp" 
   "src/Game.cpp"
-
-  "src/Core/Collision.cpp"
   
   "src/Entities/CameraManager2D.cpp"  
   "src/Entities/AnimationManager.cpp"  

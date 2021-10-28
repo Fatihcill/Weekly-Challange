@@ -12,8 +12,10 @@ class Platformer : public State
 private:
     static const int envItemsLength = 3;
     int score = 0;
+    
     AnimationManager::Animation idle{LoadTexture(ASSETS_PATH "characters/herochar/herochar_idle_anim_strip_4.png"), 4};
     AnimationManager::Animation run{LoadTexture(ASSETS_PATH "characters/herochar/herochar_run_anim_strip_6.png"), 6};
+    AnimationManager animmanager{idle};
     // Functions
     void initVariables();
     PauseWindow pauseWindow;

@@ -102,6 +102,7 @@ void Platformer::draw()
     for (int i = 0; i < envItemsLength; i++)
         DrawRectangleRec(envItems[i].rect, envItems[i].color);
 
+
     DrawRectangleRec(playerrect, ORANGE);
     DrawText(std::to_string(score).c_str(), this->stateData->virtualwindow_width / 2 - 75, this->stateData->virtualwindow_height / 2 - 150, 300, Color{255, 255, 255, 155});
 
