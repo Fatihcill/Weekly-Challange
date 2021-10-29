@@ -1,26 +1,28 @@
 #ifndef KEYBINDINGS_HPP
 #define KEYBINDINGS_HPP
 
+#include "iostream"
 #include "raylib.h"
-
-typedef struct
+struct Input
 {
-    float right;
-    float left;
-    float up;
-    float down;
-    bool jump;
-} Input;
+    float right = 0.f;
+    float left = 0.f;
+    float up = 0.f;
+    float down = 0.f;
+    bool jump = false;
+};
 
 class Keybindings
 {
 private:
     /* data */
 public:
-    Input input = {false, false, false, false, false};
-    Keybindings(/* args */);
-    ~Keybindings();
-    void InputUpdate(void)
+
+    Keybindings() 
+    { 
+    };
+    ~Keybindings(){};
+    void InputUpdate(Input &input)
     {
         input.right = (float)(IsKeyDown('D') || IsKeyDown(KEY_RIGHT));
         input.left = (float)(IsKeyDown('A') || IsKeyDown(KEY_LEFT));
@@ -34,5 +36,4 @@ public:
             input.jump = false;
     };
 };
-
 #endif

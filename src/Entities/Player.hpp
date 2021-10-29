@@ -13,7 +13,7 @@ public:
     ~Player();
 
     void playerInit();
-    void playerUpdate();
+    void playerUpdate(const float &dt);
     void playerDraw();
 };
 

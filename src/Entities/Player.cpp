@@ -32,13 +32,13 @@ void Player::playerInit()
     player.isJumping = false;
 
     // Assign Input instance used by player
-    //player.control = &input;
+    
 }
 
-void Player::playerUpdate() 
+void Player::playerUpdate(const float &dt)
 {
-    //InputUpdate();
-    //EntityMoveUpdate(&player);
+    player.update();
+    player.EntityMoveUpdate(&player, dt);
 }
 
 void Player::playerDraw() 

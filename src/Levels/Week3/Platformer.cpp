@@ -36,7 +36,7 @@ void Platformer::update(const float &dt)
         return; // if the game paused. its return.
     }
 
-    player.playerUpdate();
+    player.playerUpdate(dt);
 
     //---------------START----------------
     this->updateInput(dt);
