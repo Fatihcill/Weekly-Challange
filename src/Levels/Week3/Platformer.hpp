@@ -10,7 +10,7 @@
 class Platformer : public State
 {
 private:
-    static const int envItemsLength = 3;
+    static const int envItemsLength = 4;
     int score = 0;
     
     AnimationManager::Animation idle{LoadTexture(ASSETS_PATH "characters/herochar/herochar_idle_anim_strip_4.png"), 4};
@@ -32,8 +32,11 @@ private:
     void updatePlayer(Player *player, EnvItem *envItems, int envItemsLength, float delta);
 
     EnvItem envItems[envItemsLength] = {
-        {{0, 400, 800, 600}, 1, DARKGRAY},
-        {{0, 0, 800, 100}, 1, DARKGRAY}};
+        {{0, 500, 800, 600}, 1, DARKGRAY},
+        {{700, 0, 100, 600}, 1, DARKGRAY},
+        {{0, 0, 100, 800}, 1, DARKGRAY},
+        {{0, 0, 800, 100}, 1, DARKGRAY}
+    };
     bool GAMEEND;
 
 public:

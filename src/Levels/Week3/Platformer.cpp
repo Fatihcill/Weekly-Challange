@@ -35,12 +35,11 @@ void Platformer::updatePlayer(Player *player, EnvItem *envItems, int envItemsLen
 
     playerrect = {player->position.x - 20, player->position.y - 40, 40, 40};
     
-
     if (IsKeyDown(KEY_LEFT))
       player->position.x -= PLAYER_HOR_SPD * delta;
     if (IsKeyDown(KEY_RIGHT))
         player->position.x += PLAYER_HOR_SPD * delta;
-        
+
     if (IsKeyDown(KEY_SPACE) && player->canJump)
     {
         player->speed = -PLAYER_JUMP_SPD;
@@ -52,11 +51,7 @@ void Platformer::updatePlayer(Player *player, EnvItem *envItems, int envItemsLen
     {
         EnvItem *ei = envItems + i;
         Vector2 *p = &(player->position);
-        if (ei->blocking &&
-            ei->rect.x <= p->x &&
-            ei->rect.x + ei->rect.width >= p->x &&
-            ei->rect.y >= p->y &&
-            ei->rect.y < p->y + player->speed * delta)
+        if (ei->blocking && CheckCollisionRecs(ei->rect, playerrect))
         {
             hitObstacle = 1;
             player->speed = 0.0f;
@@ -73,7 +68,6 @@ void Platformer::updatePlayer(Player *player, EnvItem *envItems, int envItemsLen
     else
         player->canJump = true;
 }
-
 
 void Platformer::updateInput(const float &dt)
 {
@@ -96,7 +90,7 @@ void Platformer::update(const float &dt)
 void Platformer::draw()
 {
     BeginTextureMode(target);
-    ClearBackground(GRAY);
+    ClearBackground(SKYBLUE);
     BeginMode2D(cameramanager.worldspacecamera);
 
     for (int i = 0; i < envItemsLength; i++)
@@ -104,6 +98,12 @@ void Platformer::draw()
 
 
     DrawRectangleRec(playerrect, ORANGE);
+
+    // Rectangle sourceRec{getRec().x, 0.f, getRec().width * getRightLeft(), getRec().height};
+    //  Rectangle destRec{windowDimensions.x / 2.f - rec.width / 2.f, windowDimensions.y / 2.f - rec.height / 2.f, getDrawScale() * getRec().width, getDrawScale() * getRec().height};
+    
+    DrawTexturePro(getTexture(), sourceRec, destRec, Vector2{0.f, 0.f}, 0.f, WHITE);
+
     DrawText(std::to_string(score).c_str(), this->stateData->virtualwindow_width / 2 - 75, this->stateData->virtualwindow_height / 2 - 150, 300, Color{255, 255, 255, 155});
 
  
