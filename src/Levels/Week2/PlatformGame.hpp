@@ -9,7 +9,7 @@
 class PlatformGame : public State
 {
 private:
-    static const int envItemsLength = 3;
+    static const int envItemsLength = 2 ;
     static const int enemysize = 5;
     float enemy_radius = 15;
     int enemy_speed;
@@ -19,17 +19,16 @@ private:
     void initVariables();
     PauseWindow pauseWindow;
     // custom Functions
-    static const short thickness = 150;
     CameraManager2D cameramanager;
     RenderTexture2D target; // This is where we'll draw all our objects.
     float virtualratio;
 
     // player
-    Player player = {0};
+    Rect player = {0};
     Rectangle playerrect;
-    void updatePlayer(Player *player, EnvItem *envItems, int envItemsLength, float delta);
-    
-    Enemy enemies[enemysize];
+    void updatePlayer(Rect *player, EnvItem *envItems, const float &dt);
+
+    Circ enemies[enemysize];
     EnvItem envItems[envItemsLength] = {
         {{0, 400, 800, 600}, 1, DARKGRAY},
         {{0, 0, 800, 100}, 1, DARKGRAY}};

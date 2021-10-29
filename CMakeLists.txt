@@ -18,6 +18,7 @@ add_executable(${PROJECT_NAME}
   
   "src/Entities/CameraManager2D.cpp"  
   "src/Entities/AnimationManager.cpp"  
+  "src/Entities/Player.cpp"  
 
   "src/States/State.cpp"
   "src/States/MainMenuState.cpp"

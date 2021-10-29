@@ -5,39 +5,30 @@
 #include "PauseWindow.hpp"
 #include "CameraManager2D.hpp"
 #include "AnimationManager.hpp"
-#include "Objects.hpp"
+#include "Player.hpp"
 
 class Platformer : public State
 {
 private:
+    // Functions
+    void initVariables();
+    // Variables
+    PauseWindow pauseWindow;
+    CameraManager2D cameramanager;
+    RenderTexture2D target; // This is where we'll draw all our objects.
+    float virtualratio;
+    
+    // custom Functions
     static const int envItemsLength = 4;
+
+    //custom variables
     int score = 0;
     
     AnimationManager::Animation idle{LoadTexture(ASSETS_PATH "characters/herochar/herochar_idle_anim_strip_4.png"), 4};
     AnimationManager::Animation run{LoadTexture(ASSETS_PATH "characters/herochar/herochar_run_anim_strip_6.png"), 6};
     AnimationManager animmanager{idle};
-    // Functions
-    void initVariables();
-    PauseWindow pauseWindow;
-    // custom Functions
-    static const short thickness = 150;
-    CameraManager2D cameramanager;
-    RenderTexture2D target; // This is where we'll draw all our objects.
-    float virtualratio;
-
-
-    // player
-    Player player = {0};
-    Rectangle playerrect;
-    void updatePlayer(Player *player, EnvItem *envItems, int envItemsLength, float delta);
-
-    EnvItem envItems[envItemsLength] = {
-        {{0, 500, 800, 600}, 1, DARKGRAY},
-        {{700, 0, 100, 600}, 1, DARKGRAY},
-        {{0, 0, 100, 800}, 1, DARKGRAY},
-        {{0, 0, 800, 100}, 1, DARKGRAY}
-    };
-    bool GAMEEND;
+    
+    Player player{};
 
 public:
     Platformer(StateData *state_data);
@@ -47,6 +38,7 @@ public:
     void update(const float &dt);
     void render();
     void draw();
+
 };
 
 #endif

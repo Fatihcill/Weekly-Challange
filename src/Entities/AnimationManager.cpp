@@ -1,5 +1,9 @@
 #include "AnimationManager.hpp"
 
+AnimationManager::AnimationManager(Animation &anim) : currentAnim(anim)
+{
+}
+
 void AnimationManager::playAnim()
 {
 
@@ -22,11 +26,9 @@ void AnimationManager::startAnim()
     }
         anim_finished = false;
 }
-AnimationManager::AnimationManager(Animation anim)
-{
-    currentAnim = anim;
-}
 
 AnimationManager::~AnimationManager()
 {
+    UnloadTexture(currentAnim.anim_texture);
 }
+

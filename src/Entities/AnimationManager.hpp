@@ -12,7 +12,7 @@ public:
         int max_frame;
     };
     
-    AnimationManager(Animation anim);
+    AnimationManager(Animation &anim);
     ~AnimationManager();
 
     bool anim_finished{false};
@@ -22,7 +22,7 @@ public:
 
     //gets sets
     int getFrame(){return frame;}
-    void setAnim(Animation anim){currentAnim = anim; startAnim();};
+    void setAnim(Animation &anim){currentAnim = anim; startAnim();};
     Animation getAnim(){return currentAnim;};
 
 private:

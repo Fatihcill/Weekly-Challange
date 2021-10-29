@@ -28,13 +28,13 @@ void PlatformGame::initVariables()
     float space = this->stateData->virtualwindow_width;
     for (int i = 0; i < enemysize; i++)
     {
-        enemies[i] = Enemy{Vector2{space, float(rand() % (375 - 249) + 250)}, enemy_speed};
+        enemies[i] = Circ{Vector2{space, float(rand() % (375 - 249) + 250)}, enemy_speed};
         space += 300;
     }
     cameramanager.UpdateCameraCenter(Vector2{this->stateData->windowSettings.GetResolution().x / 2.f, this->stateData->windowSettings.GetResolution().y / 2.f});
 }
 
-void PlatformGame::updatePlayer(Player *player, EnvItem *envItems, int envItemsLength, float delta)
+void PlatformGame::updatePlayer(Rect *player, EnvItem *envItemss, const float &dt)
 {
     if (GAMEEND)
     {
@@ -44,7 +44,7 @@ void PlatformGame::updatePlayer(Player *player, EnvItem *envItems, int envItemsL
     playerrect = {player->position.x - 20, player->position.y - 40, 40, 40};
     for (int i = 0; i < enemysize; i++)
     {
-        enemies[i].position.x -= enemies[i].speed * delta;
+        enemies[i].position.x -= enemies[i].speed * dt;
 
         if (CheckCollisionCircleRec(enemies[i].position, enemy_radius, playerrect))
         {
@@ -59,14 +59,10 @@ void PlatformGame::updatePlayer(Player *player, EnvItem *envItems, int envItemsL
             enemies[i].position = Vector2{1400, float(rand() % (375 - 249) + 250)};
         }
     }
-        
-    /*if (IsKeyDown(KEY_LEFT))
-      player->position.x -= PLAYER_HOR_SPD * delta;
-    if (IsKeyDown(KEY_RIGHT))
-        player->position.x += PLAYER_HOR_SPD * delta;*/
+
     if (IsKeyDown(KEY_SPACE) && player->canJump)
     {
-        player->speed = -PLAYER_JUMP_SPD;
+        player->speed = -Rect_JUMP_SPD;
         player->canJump = false;
     }
 
@@ -85,8 +81,8 @@ void PlatformGame::updatePlayer(Player *player, EnvItem *envItems, int envItemsL
 
     if (!hitObstacle)
     {
-        player->position.y += player->speed * delta;
-        player->speed += G * delta;
+        player->position.y += player->speed * dt;
+        player->speed += G * dt;
         player->canJump = false;
     }
     else
@@ -108,7 +104,7 @@ void PlatformGame::update(const float &dt)
 
     //---------------START----------------
     this->updateInput(dt);
-    updatePlayer(&player, envItems, envItemsLength, dt);
+    updatePlayer(&player, envItems, dt);
     // cameramanager.UpdateCameraCenter(player.position);
 }
 
