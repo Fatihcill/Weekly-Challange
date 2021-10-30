@@ -37,18 +37,70 @@ void Platformer::update(const float &dt)
     }
 
     player.playerUpdate(dt);
-
+    collisionBlocks(&player.player, dt);
+    player.playerMove(dt);
     //---------------START----------------
     this->updateInput(dt);
+}
+
+void Platformer::collisionBlocks(Entity *instance, const float &dt)
+{
+    /*for (int i = 0; i < envItemsLength; i++)
+    {
+        
+        //GetCollisionRec
+        if (CheckCollisionRecs(instance->entityrec, envItems[i].rect))
+        {
+            // instance undo movement
+            instance->position.y = envItems[i].rect.y;
+            instance->hitOnWall = true;
+            instance->isGrounded = true;
+            instance->velocity.y = 0.0f;
+        }
+    }*/
+    for (int i = 0; i < envVerticalItemsLength; i++)
+    {
+        // Check Vertical platforms
+        if (CheckCollisionRecs(instance->entityrec, envVerticalItems[i].rect))
+        {
+            instance->hitOnWall = true;
+            instance->position.x -= instance->velocity.x * dt * 2.f;
+            instance->velocity.x = 0.0f;
+        }
+    }
+
+    for (int i = 0; i < envHorizontalItemsLength; i++)
+    {
+        //Check Vertical platforms
+       
+        //Check Horizontal platforms
+        if (envHorizontalItems[i].blocking &&
+            envHorizontalItems[i].rect.x <= instance->position.x &&
+            envHorizontalItems[i].rect.x + envHorizontalItems[i].rect.width >= instance->position.x &&
+            envHorizontalItems[i].rect.y >= instance->position.y &&
+            envHorizontalItems[i].rect.y < instance->position.y + instance->velocity.y * dt)
+        {
+            instance->hitOnWall = true;
+            instance->isGrounded = true;
+            instance->velocity.y = 0.0f;
+            instance->position.y = envHorizontalItems[i].rect.y;
+        }
+    }
 }
 void Platformer::render()
 {
     BeginTextureMode(target);
-    ClearBackground(GRAY);
+    ClearBackground(SKYBLUE);
     BeginMode2D(cameramanager.worldspacecamera);
 
 
     DrawText(std::to_string(score).c_str(), this->stateData->virtualwindow_width / 2 - 75, this->stateData->virtualwindow_height / 2 - 150, 300, Color{255, 255, 255, 155});
+
+    for (int i = 0; i < envVerticalItemsLength; i++)
+        DrawRectangleRec(envVerticalItems[i].rect, envVerticalItems[i].color);
+
+    for (int i = 0; i < envHorizontalItemsLength; i++)
+        DrawRectangleRec(envHorizontalItems[i].rect, envHorizontalItems[i].color);
     player.playerDraw();
 
     EndMode2D();
