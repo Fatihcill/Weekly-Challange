@@ -10,6 +10,7 @@ Player::~Player()
     UnloadTexture(run.anim_texture);
     UnloadTexture(jump.anim_texture);
     UnloadTexture(jumpdown.anim_texture);
+    UnloadTexture(push.anim_texture);
 }
 
 void Player::playerInit() 
@@ -31,11 +32,11 @@ void Player::playerInit()
     player.height = 48;
 
     player.isGrounded = false;
+    player.hitOnWall= false;
     player.isJumping = false;
     rotation = 1;
     player.entityrec = Rectangle{player.position.x, player.position.y, (float)player.width, (float)player.height};
-    animwidth = 0.f;
-    source = Rectangle { animmanager.getFrame() * animwidth, 0.f, animwidth, animmanager.getAnim().anim_texture.height};
+    source = Rectangle{animmanager.getFrame() * animmanager.animwidth, 0.f, animmanager.animwidth, animmanager.getAnim().anim_texture.height};
     // Assign Input instance used by player
     
 }
@@ -53,6 +54,10 @@ void Player::playerUpdate(const float &dt)
         player.velocity.x += player.direction * player.acc * dt;
         player.velocity.x = ttc_clamp(player.velocity.x, -player.maxSpd, player.maxSpd);
         animmanager.setAnim(run);
+        if (player.hitOnWall)
+        {
+            animmanager.setAnim(push);
+        }
     }
     else
     {
@@ -122,8 +127,6 @@ void Player::playerMove(const float &dt)
     player.entityrec.x = player.position.x - player.entityrec.width * 0.5f;
     player.entityrec.y = player.position.y - player.entityrec.height;
 
-    std::cout << "x :" << player.position.x << " y : " << player.position.y << std::endl;
-    std::cout << "dir :" << player.direction << std::endl;
 }
 
 void Player::playerDraw() 
@@ -134,16 +137,23 @@ void Player::playerDraw()
 
     if (control.right > 0.f)
     {
-        rotation = 1;
+        if (rotation != 1)
+        {
+            rotation = 1;
+            player.hitOnWall = false;
+        }
     }
     else if (control.left > 0.f)
     {
-        rotation = -1;
+        if (rotation != -1)
+        {
+            rotation = -1;
+            player.hitOnWall = false;
+        }
     }
-    
-    animwidth = (animmanager.getAnim().anim_texture.width / animmanager.getAnim().max_frame * rotation);
-    source.x = animmanager.getFrame() * animwidth;
-    source.width = animwidth;
- 
+
+    source.x = animmanager.getFrame() * animmanager.animwidth * rotation;
+    source.width = animmanager.animwidth * rotation;
+
     DrawTexturePro(animmanager.getAnim().anim_texture, source, player.entityrec, Vector2{}, 0.f, WHITE);
 }

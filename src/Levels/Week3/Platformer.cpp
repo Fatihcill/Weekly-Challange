@@ -17,10 +17,12 @@ void Platformer::initVariables()
     virtualratio = GetScreenWidth() / this->stateData->virtualwindow_height;
 
     cameramanager.setupCamera();
-
     cameramanager.UpdateCameraCenter(Vector2{this->stateData->windowSettings.GetResolution().x / 2.f, this->stateData->windowSettings.GetResolution().y / 2.f});
 
     player.playerInit();
+
+    coins.emplace_back(new Coin(450, 400));
+    coins.emplace_back(new Coin(500, 400));
 }
 
 void Platformer::updateInput(const float &dt)
@@ -36,6 +38,21 @@ void Platformer::update(const float &dt)
     }
     player.playerUpdate(dt);
     collisionBlocks(&player.player, dt);
+
+    if (!coins.empty())
+    {
+        for (int i = 0; i < coins.size(); i++)
+        {
+            coins[i]->update(player.player);
+            if (coins[i]->hasTaken && coins[i]->animmanager.anim_finished)
+            {
+                ++score;
+                delete coins[i];
+                coins.erase(coins.begin() + i);
+            }
+        }
+    }
+
     player.playerMove(dt);
     //---------------START----------------
     this->updateInput(dt);
@@ -51,8 +68,8 @@ void Platformer::collisionBlocks(Entity *instance, const float &dt)
         {
             if (instance->position.x < envVerticalItems[i].rect.x)
             {
-                // instance->hitOnWall = true;
-                // player.animmanager.setAnim(player.push);
+                instance->hitOnWall = true;
+                
                 instance->velocity.x = 0.0f;
                 instance->position.x -= col.width;
                 // instance->entityrec.x = instance->position.x;
@@ -60,25 +77,23 @@ void Platformer::collisionBlocks(Entity *instance, const float &dt)
             // player is on the right side of the tile
             else if (instance->position.x > envVerticalItems[i].rect.x)
             {
-                // instance->hitOnWall = true;
-                // player.animmanager.setAnim(player.push);
+                instance->hitOnWall = true;
                 instance->velocity.x = 0.0f;
                 instance->position.x += col.width;
                 // instance->entityrec.x = instance->position.x;
             }
         }
+
     }
 
     for (int i = 0; i < envHorizontalItemsLength; i++)
     {       
-        //Check Horizontal platforms
         if (envHorizontalItems[i].blocking &&
             envHorizontalItems[i].rect.x <= instance->position.x &&
             envHorizontalItems[i].rect.x + envHorizontalItems[i].rect.width >= instance->position.x &&
             envHorizontalItems[i].rect.y >= instance->position.y &&
             envHorizontalItems[i].rect.y < instance->position.y + instance->velocity.y * dt)
         {
-            instance->hitOnWall = true;
             instance->isGrounded = true;
             instance->velocity.y = 0.0f;
             instance->position.y = envHorizontalItems[i].rect.y;
@@ -92,18 +107,18 @@ void Platformer::render()
     BeginMode2D(cameramanager.worldspacecamera);
 
 
-    DrawText(std::to_string(score).c_str(), this->stateData->virtualwindow_width / 2 - 75, this->stateData->virtualwindow_height / 2 - 150, 300, Color{255, 255, 255, 155});
-
     for (int i = 0; i < envVerticalItemsLength; i++)
         DrawRectangleRec(envVerticalItems[i].rect, envVerticalItems[i].color);
 
     for (int i = 0; i < envHorizontalItemsLength; i++)
         DrawRectangleRec(envHorizontalItems[i].rect, envHorizontalItems[i].color);
-    
+
+    for (auto *coin : coins)
+    {
+        coin->draw();
+    }
+        
     player.playerDraw();
-
-    // draw the character
-
 
     EndMode2D();
     EndTextureMode();
@@ -119,7 +134,8 @@ void Platformer::draw()
     EndMode2D();
 
     DrawText(TextFormat("Screen resolution: %ix%i", GetScreenWidth(), GetScreenHeight()), 10, 10, 20, DARKBLUE);
-    DrawText(TextFormat("World resolution: %ix%i", this->stateData->virtualwindow_width, this->stateData->virtualwindow_height), 10, 40, 20, DARKGREEN);
+    DrawText(TextFormat("World resolution: %ix%i", this->stateData->virtualwindow_width, this->stateData->virtualwindow_height), 10, 40, 20, RED);
+    DrawText(TextFormat("Score: %i", score), 75, 75, 20, BLACK);
     DrawFPS(GetScreenWidth() - 95, 10);
 
     //-------END---------

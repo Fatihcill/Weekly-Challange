@@ -16,7 +16,8 @@ public:
     ~AnimationManager();
 
     bool anim_finished{false};
-    
+    float animwidth;
+
     void playAnim();
     void startAnim();
 

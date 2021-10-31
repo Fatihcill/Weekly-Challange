@@ -6,6 +6,7 @@ AnimationManager::AnimationManager(Animation &anim) : currentAnim(anim)
     anim_finished = false;
     animspeedcounter = 0;
     animspeedmax = 3;
+    animwidth = 0;
 }
 
 void AnimationManager::playAnim()
@@ -16,6 +17,8 @@ void AnimationManager::playAnim()
         if (animspeedcounter > animspeedmax)
         {
             ++frame;
+            animwidth = currentAnim.anim_texture.width / currentAnim.max_frame;
+
             if (frame > currentAnim.max_frame)
             {
                 frame = 0;

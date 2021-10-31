@@ -18,6 +18,10 @@ Weekly challanges with raylib_template.
         
     - Week 2: 2d basic runner game
         - <img src="https://github.com/Fatihcil16/Weekly-Challange/blob/master/projectgifs/PlatformGame.gif?raw=true" width="300" height="200" />
+
+    - Week 3: 2d platformer
+        - <img src="https://github.com/Fatihcil16/Weekly-Challange/blob/master/projectgifs/Platformer.gif?raw=true" width="300" height="200" />
+
 ## Requirements <a name = "requirements"></a>
 - C++17
 - Cmake

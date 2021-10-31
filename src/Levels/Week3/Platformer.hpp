@@ -6,6 +6,7 @@
 #include "CameraManager2D.hpp"
 #include "Player.hpp"
 #include "Objects.hpp" //included for envItems (platforms)
+#include "Coin.hpp"
 
 class Platformer : public State
 {
@@ -24,21 +25,21 @@ private:
     //custom variables
     static const int envHorizontalItemsLength = 5;
     static const int envVerticalItemsLength = 2;
+    static const int coinlength = 3;
     int score = 0;
         
-    Player player{};
+    Player player;
+    std::vector<Coin*> coins;
 
-    EnvItem envHorizontalItems[envHorizontalItemsLength] = {
-        {{0, 500, 800, 600}, 1, DARKGREEN}, // bottom
-        {{0, 0, 800, 100}, 1, DARKGREEN},   //top
-        {{300, 350, 224, 32}, 1, BROWN},    //platform1
-        {{200, 400, 160, 32}, 1, BROWN},    //platorm2
-        {{400, 450, 160, 32}, 1, BROWN}};   //platform3
-    
-    EnvItem envVerticalItems[envVerticalItemsLength] = {
-        {{700, 0, 100, 600}, 1, DARKBLUE}, // right
-        {{0, 0, 100, 600}, 1, DARKBLUE}    // left
-    };
+
+    EnvItem envHorizontalItems[envHorizontalItemsLength] = {{{0, 500, 800, 600}, 1, DARKGREEN}, // bottom
+                                                            {{0, 0, 800, 100}, 1, DARKGREEN},   // top
+                                                            {{300, 350, 224, 32}, 1, BROWN},    // platform1
+                                                            {{200, 400, 160, 32}, 1, BROWN},    // platorm2
+                                                            {{400, 450, 160, 32}, 1, BROWN}};   // platform3
+
+    EnvItem envVerticalItems[envVerticalItemsLength] = {{{700, 0, 100, 600}, 1, DARKBLUE}, // right
+                                                        {{0, 0, 100, 600}, 1, DARKBLUE}};  // left
 
 public:
     Platformer(StateData *state_data);
