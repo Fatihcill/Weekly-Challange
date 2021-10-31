@@ -22,12 +22,14 @@ public:
 
     //gets sets
     int getFrame(){return frame;}
-    void setAnim(Animation &anim){currentAnim = anim; startAnim();};
+    void setAnim(Animation &anim);
     Animation getAnim(){return currentAnim;};
 
 private:
     Animation currentAnim{};
     int frame{};
+    int animspeedcounter{};
+    int animspeedmax{};
 };
 
 #endif

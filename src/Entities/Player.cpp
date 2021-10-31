@@ -6,6 +6,10 @@ Player::Player()
 
 Player::~Player()
 {
+    UnloadTexture(idle.anim_texture);
+    UnloadTexture(run.anim_texture);
+    UnloadTexture(jump.anim_texture);
+    UnloadTexture(jumpdown.anim_texture);
 }
 
 void Player::playerInit() 
@@ -23,13 +27,15 @@ void Player::playerInit()
     player.jumpRelease = player.jumpImpulse * 0.2f;
     player.velocity = (Vector2){0.0, 0.0};
 
-    player.width = 32;
-    player.height = 32;
+    player.width = 48;
+    player.height = 48;
 
     player.isGrounded = false;
     player.isJumping = false;
-
+    rotation = 1;
     player.entityrec = Rectangle{player.position.x, player.position.y, (float)player.width, (float)player.height};
+    animwidth = 0.f;
+    source = Rectangle { animmanager.getFrame() * animwidth, 0.f, animwidth, animmanager.getAnim().anim_texture.height};
     // Assign Input instance used by player
     
 }
@@ -40,16 +46,19 @@ void Player::playerUpdate(const float &dt)
     // GroundCheck(instance);
     player.direction = (control.right - control.left);
     float deadZone = 0.0;
-    if (ttc_abs(player.direction) > deadZone)
+    animmanager.setAnim(idle);
+    if (std::fabs(player.direction) > deadZone)
     {
+
         player.velocity.x += player.direction * player.acc * dt;
         player.velocity.x = ttc_clamp(player.velocity.x, -player.maxSpd, player.maxSpd);
+        animmanager.setAnim(run);
     }
     else
     {
         // No direction means deacceleration
         float xsp = player.velocity.x;
-        if (ttc_abs(0 - xsp) < player.dcc * dt)
+        if (std::fabs(0 - xsp) < player.dcc * dt)
             player.velocity.x = 0;
         else if (xsp > 0)
             player.velocity.x -= player.dcc * dt;
@@ -75,6 +84,7 @@ void Player::playerUpdate(const float &dt)
     {
         if (player.isJumping)
         {
+            animmanager.setAnim(jump);
             if (!control.jump)
             {
                 player.isJumping = false;
@@ -85,6 +95,8 @@ void Player::playerUpdate(const float &dt)
                 }
             }
         }
+        else
+            animmanager.setAnim(jumpdown);
     }
 
     // Add gravity
@@ -98,7 +110,7 @@ void Player::playerUpdate(const float &dt)
     // CollisionCheck(instance);
 
     // Horizontal velocity together including last frame sub-pixel value
-
+    animmanager.playAnim();
 }
 
 void Player::playerMove(const float &dt) 
@@ -111,9 +123,27 @@ void Player::playerMove(const float &dt)
     player.entityrec.y = player.position.y - player.entityrec.height;
 
     std::cout << "x :" << player.position.x << " y : " << player.position.y << std::endl;
+    std::cout << "dir :" << player.direction << std::endl;
 }
 
 void Player::playerDraw() 
 {
-    DrawRectangleRec(player.entityrec, RED);
+#ifndef NDEBUG
+    DrawRectangleLinesEx(player.entityrec, 1.f, RED);
+#endif
+
+    if (control.right > 0.f)
+    {
+        rotation = 1;
+    }
+    else if (control.left > 0.f)
+    {
+        rotation = -1;
+    }
+    
+    animwidth = (animmanager.getAnim().anim_texture.width / animmanager.getAnim().max_frame * rotation);
+    source.x = animmanager.getFrame() * animwidth;
+    source.width = animwidth;
+ 
+    DrawTexturePro(animmanager.getAnim().anim_texture, source, player.entityrec, Vector2{}, 0.f, WHITE);
 }

@@ -63,7 +63,7 @@ void MainMenuState::draw()
 void MainMenuState::render()
 {
     ClearBackground(RAYWHITE);
-    DrawTexturePro(this->backgroundTexture, Rectangle{0, 0, this->backgroundTexture.width, this->backgroundTexture.height}, Rectangle{0, 0, this->stateData->windowSettings.GetResolution().x, this->stateData->windowSettings.GetResolution().y}, Vector2{0, 0}, 0, WHITE);
+    DrawTexturePro(this->backgroundTexture, Rectangle{0, 0, (float)this->backgroundTexture.width, (float)this->backgroundTexture.height}, Rectangle{0, 0, (float)this->stateData->windowSettings.GetResolution().x, (float)this->stateData->windowSettings.GetResolution().y}, Vector2{0, 0}, 0, WHITE);
     //DrawTexture(this->backgroundTexture, 0, 0, WHITE);
     this->updateButtons();
 }

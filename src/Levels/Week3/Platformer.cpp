@@ -20,7 +20,6 @@ void Platformer::initVariables()
 
     cameramanager.UpdateCameraCenter(Vector2{this->stateData->windowSettings.GetResolution().x / 2.f, this->stateData->windowSettings.GetResolution().y / 2.f});
 
-
     player.playerInit();
 }
 
@@ -35,7 +34,6 @@ void Platformer::update(const float &dt)
         virtualratio = GetScreenWidth() / this->stateData->virtualwindow_height;
         return; // if the game paused. its return.
     }
-
     player.playerUpdate(dt);
     collisionBlocks(&player.player, dt);
     player.playerMove(dt);
@@ -45,34 +43,34 @@ void Platformer::update(const float &dt)
 
 void Platformer::collisionBlocks(Entity *instance, const float &dt)
 {
-    /*for (int i = 0; i < envItemsLength; i++)
-    {
-        
-        //GetCollisionRec
-        if (CheckCollisionRecs(instance->entityrec, envItems[i].rect))
-        {
-            // instance undo movement
-            instance->position.y = envItems[i].rect.y;
-            instance->hitOnWall = true;
-            instance->isGrounded = true;
-            instance->velocity.y = 0.0f;
-        }
-    }*/
     for (int i = 0; i < envVerticalItemsLength; i++)
     {
-        // Check Vertical platforms
-        if (CheckCollisionRecs(instance->entityrec, envVerticalItems[i].rect))
+        Rectangle col = GetCollisionRec(instance->entityrec, envVerticalItems[i].rect);
+
+        if (col.width < col.height)
         {
-            instance->hitOnWall = true;
-            instance->position.x -= instance->velocity.x * dt * 2.f;
-            instance->velocity.x = 0.0f;
+            if (instance->position.x < envVerticalItems[i].rect.x)
+            {
+                // instance->hitOnWall = true;
+                // player.animmanager.setAnim(player.push);
+                instance->velocity.x = 0.0f;
+                instance->position.x -= col.width;
+                // instance->entityrec.x = instance->position.x;
+            }
+            // player is on the right side of the tile
+            else if (instance->position.x > envVerticalItems[i].rect.x)
+            {
+                // instance->hitOnWall = true;
+                // player.animmanager.setAnim(player.push);
+                instance->velocity.x = 0.0f;
+                instance->position.x += col.width;
+                // instance->entityrec.x = instance->position.x;
+            }
         }
     }
 
     for (int i = 0; i < envHorizontalItemsLength; i++)
-    {
-        //Check Vertical platforms
-       
+    {       
         //Check Horizontal platforms
         if (envHorizontalItems[i].blocking &&
             envHorizontalItems[i].rect.x <= instance->position.x &&
@@ -101,7 +99,11 @@ void Platformer::render()
 
     for (int i = 0; i < envHorizontalItemsLength; i++)
         DrawRectangleRec(envHorizontalItems[i].rect, envHorizontalItems[i].color);
+    
     player.playerDraw();
+
+    // draw the character
+
 
     EndMode2D();
     EndTextureMode();

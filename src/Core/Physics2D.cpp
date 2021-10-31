@@ -10,13 +10,6 @@ int ttc_sign(float x)
         return 1;
 }
 
-// Return absolute value of float
-float ttc_abs(float x)
-{
-    if (x < 0.0)
-        x *= -1.0;
-    return x;
-}
 
 // Clamp value between min and max
 float ttc_clamp(float value, float min, float max)
