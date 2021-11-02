@@ -30,7 +30,7 @@ add_executable(${PROJECT_NAME}
  
   "src/Levels/Week1/OrbitSimulator.cpp"
   "src/Levels/Week2/PlatformGame.cpp"
-  "src/Levels/Week3/Platformer.cpp"
+  "src/Levels/Week3-4/Platformer.cpp"
 
   "src/Settings/SettingsWindow.cpp"
   "src/Pause/PauseWindow.cpp"
