@@ -39,12 +39,8 @@ void PauseWindow::render(StateData *currentStateData)
         currentStateData->windowSettings.Update();
         return; // does not draw the below gui elements
     }
-    if (!IsWindowFocused() || IsWindowMinimized() || IsWindowReady())
-    {
-        currentStateData->states->top()->pauseState();
-    }
 
-    if (GuiButton((Rectangle){(currentStateData->windowSettings.GetResolution().x - 50) / 2.f, 25, 50, 50}, "PAUSE")) // pause button in the state
+    if (!IsWindowFocused() || GuiButton((Rectangle){(currentStateData->windowSettings.GetResolution().x - 50) / 2.f, 25, 50, 50}, "PAUSE")) // pause button in the state
     {
         currentStateData->states->top()->pauseState();
     }

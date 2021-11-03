@@ -6,6 +6,7 @@
 - [Requirements](#requirements)
 - [Installing](#installing)
 - [Platforms](#platforms)
+- [Bugs](#bugs)
 
 ## About <a name = "about"></a>
 Weekly challanges with raylib_template.
@@ -37,6 +38,12 @@ git clone --recurse-submodules -j8 https://github.com/Fatihcil16/Weekly-Challang
 Tested in;
 - Linux Mint 20.2 Cinnamon 
 - Windows 10
+
+## Bugs <a name = "bugs"></a>
+- Window ;
+    - Minimese or move the window, character falls.
+- Linux ;
+    - Minimise window, character falls.
 
 
 Template:  [raylib_template](https://github.com/Fatihcil16/raylib_template)
