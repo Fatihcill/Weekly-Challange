@@ -46,10 +46,11 @@ Tested in;
     - Minimise window, character falls.
 
 ---
-### Used Libraries
-
+### Used Libraries/Assets
 - Template:  [raylib_template](https://github.com/Fatihcil16/raylib_template)
 
 - Use [Tiled](https://www.mapeditor.org) maps in [raylib](https://www.raylib.com/), through [Tileson](https://github.com/SSBMTonberry/tileson). 
     - Tileson Example : [raylib-tileson](https://github.com/RobLoach/raylib-tileson)
+
+- Assets: [Metroidvania](https://o-lobster.itch.io/platformmetroidvania-pixel-art-asset-pack)
 
