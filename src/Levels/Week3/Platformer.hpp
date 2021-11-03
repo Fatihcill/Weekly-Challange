@@ -34,7 +34,7 @@ private:
 
     EnvItem envHorizontalItems[envHorizontalItemsLength] = {{{0, 500, 800, 600}, 1, DARKGREEN}, // bottom
                                                             {{0, 0, 800, 100}, 1, DARKGREEN},   // top
-                                                            {{300, 350, 224, 32}, 1, BROWN},    // platform1
+                                                            {{300, 250, 224, 32}, 1, BROWN},    // platform1
                                                             {{200, 400, 160, 32}, 1, BROWN},    // platorm2
                                                             {{400, 450, 160, 32}, 1, BROWN}};   // platform3
 

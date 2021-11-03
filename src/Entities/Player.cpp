@@ -17,7 +17,7 @@ void Player::playerInit()
 {
     
     player.position.x = 400;
-    player.position.y = 300;
+    player.position.y = 200;
     player.direction = 1.0;
 
     player.maxSpd = 2.f * 60;
