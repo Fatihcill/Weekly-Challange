@@ -3,11 +3,10 @@
 Coin::Coin(float x, float y)
 {
     hasTaken = false;
-    scale = 2;
     pos.x = x;
     pos.y = y;
     source = Rectangle{animmanager.getFrame() * animmanager.animwidth, 0.f, animmanager.animwidth, animmanager.getAnim().anim_texture.height};
-    dest  = Rectangle{pos.x, pos.y, animmanager.animwidth * scale, animmanager.getAnim().anim_texture.height * scale};
+    dest  = Rectangle{pos.x, pos.y, animmanager.animwidth, animmanager.getAnim().anim_texture.height};
 }
 
 Coin::~Coin() 
@@ -28,8 +27,8 @@ void Coin::update(Entity &player)
             animmanager.setAnim(coinpickup);
             hasTaken = true;
         }
-        dest.width = animmanager.animwidth * scale;
-        dest.height = animmanager.getAnim().anim_texture.height * scale;
+        dest.width = animmanager.animwidth;
+        dest.height = animmanager.getAnim().anim_texture.height;
     }
     
     animmanager.playAnim();
@@ -37,9 +36,8 @@ void Coin::update(Entity &player)
 
 void Coin::draw() 
 {
-    //std::cout << "x : " << pos.x << " y : " << pos.y << " w : " << animmanager.animwidth * scale << std::endl;
 #ifndef NDEBUG
-    DrawRectangleLinesEx(dest, 2.f, YELLOW);
+    DrawRectangleLinesEx(dest, 1.f, YELLOW);
 #endif
     source.x = animmanager.getFrame() * animmanager.animwidth;
     source.width = animmanager.animwidth;

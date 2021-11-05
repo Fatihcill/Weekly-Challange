@@ -1,11 +1,21 @@
 #ifndef RAYLIB_TILESON_H_
 #define RAYLIB_TILESON_H_
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include <string>
+#include <vector>
+#include <map>
 
 #include "raylib.h"
+#include "tileson.hpp"
+
+
+
+class RaylibTilesonData {
+    public:
+        std::map<std::string, Texture> textures;
+        tson::Map* map;
+};
+
 
 typedef struct Map {
     void* data;
@@ -19,8 +29,5 @@ void UnloadMap(Map map);
 
 // TODO: Add World support with LoadTiledWorld()
 
-#ifdef __cplusplus
-}
-#endif
 
 #endif  // RAYLIB_TILESON_H_

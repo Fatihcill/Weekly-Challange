@@ -28,8 +28,8 @@ void Player::playerInit()
     player.jumpRelease = player.jumpImpulse * 0.2f;
     player.velocity = (Vector2){0.0, 0.0};
 
-    player.width = 48;
-    player.height = 48;
+    player.width = 16;
+    player.height = 16;
 
     player.isGrounded = false;
     player.hitOnWall= false;
@@ -121,9 +121,9 @@ void Player::playerUpdate(const float &dt)
 void Player::playerMove(const float &dt) 
 {
 
-    player.position.y += player.velocity.y * dt;
-
+    //player.position.y += player.velocity.y * dt;
     player.position.x += player.velocity.x * dt;
+
     player.entityrec.x = player.position.x - player.entityrec.width * 0.5f;
     player.entityrec.y = player.position.y - player.entityrec.height;
 

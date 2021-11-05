@@ -7,7 +7,6 @@
 class Coin
 {
 private:
-    float scale = 2.f;
     Vector2 pos{0, 0};
     AnimationManager::Animation coin{LoadTexture(ASSETS_PATH "Metroidvania assets 16x16/miscellaneous sprites/coin_anim_strip_6.png"), 6};
     AnimationManager::Animation coinpickup{LoadTexture(ASSETS_PATH "Metroidvania assets 16x16/miscellaneous sprites/coin_pickup_anim_strip_7.png"), 7};
