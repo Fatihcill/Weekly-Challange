@@ -29,15 +29,16 @@ void Platformer::initVariables()
 
     //SETUP MAP-------------------------
     map = LoadTiled(ASSETS_PATH "Metroidvania assets 16x16/map/map.json");
-
-    for (const auto& ly : ((RaylibTilesonData*)map.data)->map->getLayers())
+    
+    for (const auto& ly : GetLayers(map))
     {
         tson::Layer layer = ly;
+        std::cout << ly.getName() << std::endl;
         if (layer.getName() == "player")
         {
             for(auto &obj : layer.getObjects()) 
             {
-                if (obj.getObjectType() == tson::ObjectType::Point)
+                if (obj.isPoint())
                 {
                     if (obj.isVisible()) 
                     {
@@ -51,7 +52,7 @@ void Platformer::initVariables()
         {
             for(auto &obj : layer.getObjects()) 
             {
-                if (obj.getObjectType() == tson::ObjectType::Point)
+                if (obj.isPoint())
                 {
                     if (obj.isVisible()) 
                     {
@@ -61,7 +62,16 @@ void Platformer::initVariables()
                 }                 
             }       
         }
-        
+        else if (layer.getName() == "collisions")
+        {
+            for(auto &obj : layer.getObjects()) 
+            {
+                if (obj.getObjectType() == tson::ObjectType::Rectangle)
+                {
+                    std::cout << obj.isPoint<< std::endl;
+                }                 
+            }       
+        }
     }
     //----------------------------------
 }
@@ -95,6 +105,8 @@ void Platformer::update(const float &dt)
         }
     }
     player.playerMove(dt);
+    
+    
     Rectangle mapbnds = Rectangle{0, 0, 360, 160};
     cameramanager.UpdateCameraCenterInsideMap(&player.player.position, &mapbnds, Vector2{this->stateData->virtualwindow_width, this->stateData->virtualwindow_height});
 

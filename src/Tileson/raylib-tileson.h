@@ -26,7 +26,8 @@ Map LoadTiled(const char* fileName);
 bool IsTiledReady(Map map);
 void DrawTiled(Map map, int posX, int posY, Color tint);
 void UnloadMap(Map map);
-
+std::vector<tson::Layer> GetLayers(Map map);
+Rectangle RectangleFromTiledRectangle(tson::Rect rect);
 // TODO: Add World support with LoadTiledWorld()
 
 

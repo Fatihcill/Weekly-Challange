@@ -213,3 +213,15 @@ void UnloadMap(Map map) {
         delete data;
     };
 }
+
+
+//EXTRA FUNCTIONS 
+std::vector<tson::Layer> GetLayers(Map map) 
+{
+    RaylibTilesonData* data = (RaylibTilesonData*)map.data;
+
+    tson::Map* tsonMap = data->map;
+    std::vector<tson::Layer> layers = tsonMap->getLayers();
+    return layers;
+}
+
