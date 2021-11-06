@@ -68,7 +68,7 @@ void Platformer::initVariables()
             {
                 if (obj.getObjectType() == tson::ObjectType::Rectangle)
                 {
-                    std::cout << obj.isPoint<< std::endl;
+                    //std::cout << obj.isPoint<< std::endl;
                 }                 
             }       
         }

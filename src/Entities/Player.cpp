@@ -1,5 +1,15 @@
 #include "Player.hpp"
 
+int ttc_sign(float x)
+{
+    if (x < 0)
+        return -1;
+    else if (x < 0.0001)
+        return 0;
+    else
+        return 1;
+}
+
 Player::Player()
 {
 }
@@ -52,7 +62,7 @@ void Player::playerUpdate(const float &dt)
     {
 
         player.velocity.x += player.direction * player.acc * dt;
-        player.velocity.x = ttc_clamp(player.velocity.x, -player.maxSpd, player.maxSpd);
+        player.velocity.x = std::clamp(player.velocity.x, -player.maxSpd, player.maxSpd);
         animmanager.setAnim(run);
         if (player.hitOnWall)
         {

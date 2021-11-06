@@ -2,10 +2,10 @@
 #define PLAYER_HPP
 
 #include "Entity.hpp"
-#include "Physics2D.hpp"
 #include "Keybindings.hpp"
 #include "AnimationManager.hpp"
 #include <cmath>
+#include <bits/stdc++.h>
 
 class Player
 {
