@@ -9,7 +9,6 @@ Platformer::Platformer(StateData *state_data) : State(state_data)
 Platformer::~Platformer()
 {
     std::cout << "Platformer FINISHED" << std::endl;
-    UnloadMap(map);
 }
 
 void Platformer::initVariables()
@@ -28,7 +27,8 @@ void Platformer::initVariables()
 
 
     //SETUP MAP-------------------------
-    map = LoadTiled(ASSETS_PATH "Metroidvania assets 16x16/map/map.json");
+
+    /*map = LoadTiled(ASSETS_PATH "Metroidvania assets 16x16/map/map.json");
     
     for (const auto& ly : GetLayers(map))
     {
@@ -68,11 +68,11 @@ void Platformer::initVariables()
             {
                 if (obj.getObjectType() == tson::ObjectType::Rectangle)
                 {
-                    //std::cout << obj.isPoint<< std::endl;
+
                 }                 
             }       
         }
-    }
+    }*/
     //----------------------------------
 }
 
@@ -164,8 +164,7 @@ void Platformer::render()
     BeginMode2D(cameramanager.worldspacecamera);
 
 
-    DrawTiled(map, 0, 0, WHITE);
-    
+   // map.Draw(73, Vector2{0, 0});    
 
     for (auto *coin : coins)
     {

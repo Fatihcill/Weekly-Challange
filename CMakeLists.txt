@@ -32,8 +32,6 @@ add_executable(${PROJECT_NAME}
 
   "src/Settings/SettingsWindow.cpp"
   "src/Pause/PauseWindow.cpp"
- 
-  "src/Tileson/raylib-tileson.cpp"
 
   )
 
@@ -46,7 +44,6 @@ target_include_directories(${PROJECT_NAME}
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Settings"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Pause"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Levels"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/Tileson"
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib)

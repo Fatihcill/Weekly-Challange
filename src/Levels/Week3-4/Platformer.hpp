@@ -1,15 +1,15 @@
 #ifndef PLATFORMER_HPP
 #define PLATFORMER_HPP
 
-#define RAYLIB_TILESON_IMPLEMENTATION
-#include "raylib-tileson.h"
 
+#include "TileLoader.hpp"
 #include "State.hpp"
 #include "PauseWindow.hpp"
 #include "CameraManager2D.hpp"
 #include "Player.hpp"
 //#include "Objects.hpp" //included for envItems (platforms)
 #include "Coin.hpp"
+#include "TileLoader.hpp"
 
 class Platformer : public State
 {
@@ -32,8 +32,7 @@ private:
         
     Player player;
     std::vector<Coin*> coins;
-
-    Map map;     // Load the map
+    Tiled::Tileset map{ASSETS_PATH "Metroidvania assets 16x16/map/map.json", 0};
 public:
     Platformer(StateData *state_data);
     ~Platformer();
