@@ -136,7 +136,7 @@ void Player::playerMove(const float &dt)
     player.position.y += player.velocity.y * dt;
     player.position.x += player.velocity.x * dt;
 
-    player.entityrec.x = player.position.x - player.entityrec.width * 0.5f;
+    player.entityrec.x = player.position.x - player.entityrec.width;
     player.entityrec.y = player.position.y - player.entityrec.height;
 
 }

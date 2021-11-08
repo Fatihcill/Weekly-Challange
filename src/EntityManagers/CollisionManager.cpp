@@ -6,34 +6,41 @@ void CollisionEntityRecVec(Entity *instance, std::vector<Rectangle> *collisions,
     //TODO: better collision detection
      for (Rectangle col : *collisions)
     {
-        Rectangle colx = GetCollisionRec(instance->entityrec, col);
-        if (colx.width < colx.height)
+        if (col.y <= instance->position.y &&
+           col.y + col.height >= instance->position.y)
         {
-            if (instance->position.x < colx.x)
+            if (col.x >= instance->position.x &&
+                col.x < instance->position.x + instance->velocity.x * dt)
             {
                 instance->hitOnWall = true;
-                
                 instance->velocity.x = 0.0f;
-                instance->position.x -= colx.width;
-                // instance->entityrec.x = instance->position.x;
+                instance->position.x = col.x;
             }
-            // player is on the right side of the tile
-            else if (instance->position.x > colx.x)
+            else if (col.x + col.width + instance->entityrec.width <= instance->position.x &&
+                col.x + col.width + instance->entityrec.width > instance->position.x + instance->velocity.x * dt)
             {
                 instance->hitOnWall = true;
                 instance->velocity.x = 0.0f;
-                instance->position.x += colx.width;
-                // instance->entityrec.x = instance->position.x;
+                instance->position.x = col.x + col.width + instance->entityrec.width;
             }
         }
-        else if (col.x <= instance->position.x &&
-         col.x + col.width >= instance->position.x &&
-          col.y >= instance->position.y &&
-           col.y < instance->position.y + instance->velocity.y * dt)
+
+        if (col.x <= instance->position.x &&
+            col.x + col.width >= instance->position.x - instance->entityrec.width)
         {
+            if (col.y >= instance->position.y &&
+                col.y < instance->position.y + instance->velocity.y * dt)
+            {
             instance->isGrounded = true;
             instance->velocity.y = 0.0f;
             instance->position.y = col.y;
+            }
+            else if (col.y + col.height <= instance->position.y &&
+                col.y + col.height > instance->position.y + instance->velocity.y * dt)
+            {
+            instance->velocity.y = 0.0f;
+            instance->position.y = col.y + col.height;
+            }
         }
         //logs
         //std::cout << colx.width << " " << colx.height << std::endl;

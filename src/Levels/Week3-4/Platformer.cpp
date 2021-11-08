@@ -115,14 +115,13 @@ void Platformer::render()
     BeginMode2D(cameramanager.worldspacecamera);
 
     //DRAW MAP ----------------
+    DrawTiled(map, 0, 0, WHITE);
 #ifndef NDEBUG
     for (Rectangle platform: platformcollisions)
     {
-        DrawRectangleLinesEx(platform, 3.f, GREEN);
+        DrawRectangleLinesEx(platform, 1.f, GREEN);
     }
-#endif
-
-    DrawTiled(map, 0, 0, WHITE);    
+#endif    
     //--------------------------
     for (auto *coin : coins)
     {
