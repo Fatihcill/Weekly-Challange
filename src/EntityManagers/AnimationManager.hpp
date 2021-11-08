@@ -23,7 +23,7 @@ public:
 
     //gets sets
     int getFrame(){return frame;}
-    void setAnim(Animation &anim);
+    void setAnim(Animation &anim); //TODO: set anim speed
     Animation getAnim(){return currentAnim;};
 
 private:

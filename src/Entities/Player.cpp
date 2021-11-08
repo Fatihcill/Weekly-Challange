@@ -10,7 +10,6 @@ int ttc_sign(float x)
         return 1;
 }
 
-
 Player::Player()
 {
 }
@@ -47,9 +46,7 @@ void Player::playerInit()
     player.isJumping = false;
     rotation = 1;
     player.entityrec = Rectangle{player.position.x, player.position.y, (float)player.width, (float)player.height};
-    source = Rectangle{animmanager.getFrame() * animmanager.animwidth, 0.f, animmanager.animwidth, animmanager.getAnim().anim_texture.height};
-    // Assign Input instance used by player
-    
+    source = Rectangle{animmanager.getFrame() * animmanager.animwidth, 0.f, animmanager.animwidth, animmanager.getAnim().anim_texture.height};    
 }
 
 void Player::playerUpdate(const float &dt)
@@ -112,10 +109,18 @@ void Player::playerUpdate(const float &dt)
                 }
             }
         }
-        else
-            animmanager.setAnim(jumpdown);
-    }
 
+    }
+    if (player.velocity.y > 0.f)
+        animmanager.setAnim(jumpdown);  
+    std::cout << player.velocity.x << " " << player.velocity.y << std::endl;
+  
+    if (player.velocity.x > 8.f || player.velocity.x < -8.f)
+    {
+        player.hitOnWall = false;
+    }
+    
+  
     // Add gravity
     player.velocity.y += player.gravity * dt;
 
@@ -124,9 +129,9 @@ void Player::playerUpdate(const float &dt)
     {
         player.velocity.y = -player.jumpImpulse;
     }
-    // CollisionCheck(instance);
 
-    // Horizontal velocity together including last frame sub-pixel value
+
+
     animmanager.playAnim();
 }
 
@@ -143,29 +148,16 @@ void Player::playerMove(const float &dt)
 
 void Player::playerDraw() 
 {
-#ifndef NDEBUG
-    DrawRectangleLinesEx(player.entityrec, 1.f, RED);
-#endif
-
-    if (control.right > 0.f)
-    {
-        if (rotation != 1)
-        {
+    if (control.right > 0.f && rotation != 1)
             rotation = 1;
-            player.hitOnWall = false;
-        }
-    }
-    else if (control.left > 0.f)
-    {
-        if (rotation != -1)
-        {
+    else if (control.left > 0.f && rotation != -1)
             rotation = -1;
-            player.hitOnWall = false;
-        }
-    }
 
     source.x = animmanager.getFrame() * animmanager.animwidth * rotation;
     source.width = animmanager.animwidth * rotation;
 
     DrawTexturePro(animmanager.getAnim().anim_texture, source, player.entityrec, Vector2{}, 0.f, WHITE);
+#ifndef NDEBUG
+    DrawRectangleLinesEx(player.entityrec, 1.f, RED);
+#endif
 }
