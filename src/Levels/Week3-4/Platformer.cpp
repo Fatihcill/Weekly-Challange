@@ -84,8 +84,7 @@ void Platformer::update(const float &dt)
 
     if (player.player.position.y > mapbnds.height)
     {
-        this->states->push(new Platformer(this->stateData));
-        this->endState();
+            this->endState();            //end game 
     }
     
 

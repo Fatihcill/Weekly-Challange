@@ -35,7 +35,7 @@ void Player::playerInit()
     player.acc = 0.118164f * 60 * 60;
     player.dcc = 0.113281f * 60 * 60;
     player.gravity = 0.363281f * 60 * 60;
-    player.jumpImpulse = -6.f * 60;
+    player.jumpImpulse = -6.5f * 60;
     player.jumpRelease = player.jumpImpulse * 0.2f;
     player.velocity = (Vector2){0.0, 0.0};
 
