@@ -1,15 +1,15 @@
 #ifndef PLATFORMER_HPP
 #define PLATFORMER_HPP
 
+#define RAYLIB_TILESON_IMPLEMENTATION
+#include "raylib-tileson.h"
 
-#include "TileLoader.hpp"
 #include "State.hpp"
 #include "PauseWindow.hpp"
 #include "CameraManager2D.hpp"
+#include "CollisionManager.hpp"
 #include "Player.hpp"
-//#include "Objects.hpp" //included for envItems (platforms)
 #include "Coin.hpp"
-#include "TileLoader.hpp"
 
 class Platformer : public State
 {
@@ -18,21 +18,23 @@ private:
     void initVariables();
     // Variables
     PauseWindow pauseWindow;
+
+    //Camera Screen Window Variables.
     CameraManager2D cameramanager;
     RenderTexture2D target; // This is where we'll draw all our objects.
     float virtualratio;
-    
-    // custom Functions
-    //void collisionBlocks(Entity *instance, const float &dt);
 
-    //custom variables
-
+    //Collision Manager
     static const int coinlength = 3;
     int score = 0;
         
     Player player;
-    std::vector<Coin*> coins;
-    Tiled::Tileset map{ASSETS_PATH "Metroidvania assets 16x16/map/map.json", 0};
+    std::vector<Coin*> coins;   
+    std::vector<Rectangle> platformcollisions;
+
+    Map map;     // Load the map
+    Rectangle mapbnds;
+
 public:
     Platformer(StateData *state_data);
     ~Platformer();

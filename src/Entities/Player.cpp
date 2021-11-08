@@ -10,6 +10,7 @@ int ttc_sign(float x)
         return 1;
 }
 
+
 Player::Player()
 {
 }
@@ -26,15 +27,15 @@ Player::~Player()
 void Player::playerInit() 
 {
     
-    player.position.x = 400;
-    player.position.y = 200;
+    player.position.x = 0;
+    player.position.y = 0;
     player.direction = 1.0;
 
-    player.maxSpd = 2.f * 60;
+    player.maxSpd = 1.5f * 60;
     player.acc = 0.118164f * 60 * 60;
     player.dcc = 0.113281f * 60 * 60;
     player.gravity = 0.363281f * 60 * 60;
-    player.jumpImpulse = -8.f * 60;
+    player.jumpImpulse = -6.f * 60;
     player.jumpRelease = player.jumpImpulse * 0.2f;
     player.velocity = (Vector2){0.0, 0.0};
 
@@ -100,9 +101,10 @@ void Player::playerUpdate(const float &dt)
         if (player.isJumping)
         {
             animmanager.setAnim(jump);
+            player.hitOnWall = false;
+            
             if (!control.jump)
             {
-                player.isJumping = false;
 
                 if (player.velocity.y < player.jumpRelease)
                 {
@@ -131,7 +133,7 @@ void Player::playerUpdate(const float &dt)
 void Player::playerMove(const float &dt) 
 {
 
-    //player.position.y += player.velocity.y * dt;
+    player.position.y += player.velocity.y * dt;
     player.position.x += player.velocity.x * dt;
 
     player.entityrec.x = player.position.x - player.entityrec.width * 0.5f;

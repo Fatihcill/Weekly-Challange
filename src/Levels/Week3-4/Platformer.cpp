@@ -3,20 +3,25 @@
 Platformer::Platformer(StateData *state_data) : State(state_data)
 {
     std::cout << "Platformer START" << std::endl;
+    
+    //NOTE we need change virtual window res for this app.
+    stateData->virtualwindow_width = 240;
+    stateData->virtualwindow_height = 160;
+       
     this->initVariables();
 }
 
 Platformer::~Platformer()
 {
     std::cout << "Platformer FINISHED" << std::endl;
+    
+    stateData->virtualwindow_width = 800;
+    stateData->virtualwindow_height = 600;
+    UnloadMap(map);
 }
 
 void Platformer::initVariables()
 {
-    //NOTE we need change virtual window res for this app.
-    stateData->virtualwindow_width = 240;
-    stateData->virtualwindow_height = 160;
-    
     this->target = LoadRenderTexture(stateData->virtualwindow_width, stateData->virtualwindow_height);
     virtualratio = GetScreenWidth() / this->stateData->virtualwindow_height;
 
@@ -25,55 +30,37 @@ void Platformer::initVariables()
 
     player.playerInit();
 
-
     //SETUP MAP-------------------------
+    map = LoadTiled(ASSETS_PATH "Metroidvania assets 16x16/map/map.json");
+    mapbnds = GetMapBounds(map);
 
-    /*map = LoadTiled(ASSETS_PATH "Metroidvania assets 16x16/map/map.json");
-    
-    for (const auto& ly : GetLayers(map))
+    for (tson::Layer layer : GetLayersFromMap(map))
     {
-        tson::Layer layer = ly;
-        std::cout << ly.getName() << std::endl;
+        std::cout << layer.getName() << std::endl;
+        
         if (layer.getName() == "player")
         {
             for(auto &obj : layer.getObjects()) 
             {
-                if (obj.isPoint())
-                {
-                    if (obj.isVisible()) 
-                    {
-                        auto pos = obj.getPosition();
-                        player.player.position = Vector2{pos.x, pos.y};
-                    }
-                }                 
+                  auto pos = obj.getPosition();
+                  player.player.position = Vector2{pos.x, pos.y};
             }       
         }
-        else if (layer.getName() == "coin")
+       else if (layer.getName() == "coin")
         {
             for(auto &obj : layer.getObjects()) 
             {
-                if (obj.isPoint())
-                {
-                    if (obj.isVisible()) 
-                    {
-                        auto pos = obj.getPosition();
-                        coins.emplace_back(new Coin(pos.x, pos.y));
-                    }
-                }                 
+                auto pos = obj.getPosition();
+                coins.emplace_back(new Coin(pos.x, pos.y));
             }       
         }
-        else if (layer.getName() == "collisions")
-        {
-            for(auto &obj : layer.getObjects()) 
-            {
-                if (obj.getObjectType() == tson::ObjectType::Rectangle)
-                {
-
-                }                 
-            }       
-        }
-    }*/
-    //----------------------------------
+    }
+    
+    for(auto &obj :  GetLayerFromMap(map, "collisions")->getObjects()) 
+    {
+        platformcollisions.push_back(LayerObjectRectToRaylibRect(obj));
+    }
+    //--------------------------------------
 }
 
 void Platformer::updateInput(const float &dt)
@@ -87,10 +74,22 @@ void Platformer::update(const float &dt)
         virtualratio = GetScreenWidth() / this->stateData->virtualwindow_height;
         return; // if the game paused. its return.
     }
-    player.playerUpdate(dt);
-    
-    //collisionBlocks(&player.player, dt);
+    //---------------START----------------
+    this->updateInput(dt);
 
+    //players
+    player.playerUpdate(dt); // player inputs
+    CollisionEntityRecVec(&player.player, &platformcollisions, dt); // check collisions
+    player.playerMove(dt);  //apply move player
+
+    if (player.player.position.y > mapbnds.height)
+    {
+        this->states->push(new Platformer(this->stateData));
+        this->endState();
+    }
+    
+
+    //coins update 
     if (!coins.empty())
     {
         for (int i = 0; i < coins.size(); i++)
@@ -104,58 +103,11 @@ void Platformer::update(const float &dt)
             }
         }
     }
-    player.playerMove(dt);
-    
-    
-    Rectangle mapbnds = Rectangle{0, 0, 360, 160};
+
+
+
     cameramanager.UpdateCameraCenterInsideMap(&player.player.position, &mapbnds, Vector2{this->stateData->virtualwindow_width, this->stateData->virtualwindow_height});
-
-    //---------------START----------------
-    this->updateInput(dt);
 }
-/*
-void Platformer::collisionBlocks(Entity *instance, const float &dt)
-{
-    for (int i = 0; i < envVerticalItemsLength; i++)
-    {
-        Rectangle col = GetCollisionRec(instance->entityrec, envVerticalItems[i].rect);
-
-        if (col.width < col.height)
-        {
-            if (instance->position.x < envVerticalItems[i].rect.x)
-            {
-                instance->hitOnWall = true;
-                
-                instance->velocity.x = 0.0f;
-                instance->position.x -= col.width;
-                // instance->entityrec.x = instance->position.x;
-            }
-            // player is on the right side of the tile
-            else if (instance->position.x > envVerticalItems[i].rect.x)
-            {
-                instance->hitOnWall = true;
-                instance->velocity.x = 0.0f;
-                instance->position.x += col.width;
-                // instance->entityrec.x = instance->position.x;
-            }
-        }
-
-    }
-
-    for (int i = 0; i < envHorizontalItemsLength; i++)
-    {       
-        if (envHorizontalItems[i].blocking &&
-            envHorizontalItems[i].rect.x <= instance->position.x &&
-            envHorizontalItems[i].rect.x + envHorizontalItems[i].rect.width >= instance->position.x &&
-            envHorizontalItems[i].rect.y >= instance->position.y &&
-            envHorizontalItems[i].rect.y < instance->position.y + instance->velocity.y * dt)
-        {
-            instance->isGrounded = true;
-            instance->velocity.y = 0.0f;
-            instance->position.y = envHorizontalItems[i].rect.y;
-        }
-    }
-}*/
 
 void Platformer::render()
 {
@@ -163,9 +115,16 @@ void Platformer::render()
     ClearBackground(SKYBLUE);
     BeginMode2D(cameramanager.worldspacecamera);
 
+    //DRAW MAP ----------------
+#ifndef NDEBUG
+    for (Rectangle platform: platformcollisions)
+    {
+        DrawRectangleLinesEx(platform, 3.f, GREEN);
+    }
+#endif
 
-   // map.Draw(73, Vector2{0, 0});    
-
+    DrawTiled(map, 0, 0, WHITE);    
+    //--------------------------
     for (auto *coin : coins)
     {
         coin->draw();

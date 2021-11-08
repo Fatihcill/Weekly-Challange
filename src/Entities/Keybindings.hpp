@@ -3,6 +3,7 @@
 
 #include "iostream"
 #include "raylib.h"
+
 struct Input
 {
     float right = 0.f;
