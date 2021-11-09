@@ -21,6 +21,16 @@ Player::~Player()
     UnloadTexture(jump.anim_texture);
     UnloadTexture(jumpdown.anim_texture);
     UnloadTexture(push.anim_texture);
+    UnloadTexture(jumpbeforeafter.anim_texture);
+    UnloadTexture(death.anim_texture);
+    UnloadTexture(attack.anim_texture);
+    UnloadTexture(hit.anim_texture);
+    UnloadTexture(doublejump.anim_texture);
+
+    UnloadTexture(jumpbeforedusteffect.anim_texture);
+    UnloadTexture(jumpafterdusteffect.anim_texture);
+    UnloadTexture(hitsparkle.anim_texture);
+    UnloadTexture(swordattack.anim_texture);
 }
 
 void Player::playerInit() 

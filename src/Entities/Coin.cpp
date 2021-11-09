@@ -5,7 +5,7 @@ Coin::Coin(float x, float y)
     hasTaken = false;
     pos.x = x;
     pos.y = y;
-    source = Rectangle{animmanager.getFrame() * animmanager.animwidth, 0.f, animmanager.animwidth, animmanager.getAnim().anim_texture.height};
+    source = Rectangle{animmanager.getFrame() * animmanager.animwidth, 0.f, animmanager.animwidth, (float)animmanager.getAnim().anim_texture.height};
     dest  = Rectangle{pos.x, pos.y, animmanager.animwidth, animmanager.getAnim().anim_texture.height};
 }
 

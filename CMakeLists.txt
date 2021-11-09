@@ -19,6 +19,9 @@ add_executable(${PROJECT_NAME}
   "src/Entities/Entity.cpp"  
   "src/Entities/Player.cpp"  
   "src/Entities/Coin.cpp"  
+  
+  "src/Entities/Enemies/Mushroom.cpp"  
+  "src/Entities/Enemies/Enemy.cpp"  
 
   "src/EntityManagers/AnimationManager.cpp"  
   "src/EntityManagers/CameraManager2D.cpp"  
@@ -44,6 +47,7 @@ target_include_directories(${PROJECT_NAME}
     "${CMAKE_CURRENT_SOURCE_DIR}/src"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/States"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Entities"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Entities/Enemies"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/EntityManagers"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Settings"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Pause"

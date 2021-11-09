@@ -43,7 +43,7 @@ void Platformer::initVariables()
             for(auto &obj : layer.getObjects()) 
             {
                   auto pos = obj.getPosition();
-                  player.player.position = Vector2{pos.x, pos.y};
+                  player.player.position = Vector2{(float)pos.x, (float)pos.y};
             }       
         }
        else if (layer.getName() == "coin")
@@ -105,7 +105,7 @@ void Platformer::update(const float &dt)
 
 
 
-    cameramanager.UpdateCameraCenterInsideMap(&player.player.position, &mapbnds, Vector2{this->stateData->virtualwindow_width, this->stateData->virtualwindow_height});
+    cameramanager.UpdateCameraCenterInsideMap(&player.player.position, &mapbnds, Vector2{(float)this->stateData->virtualwindow_width, (float)this->stateData->virtualwindow_height});
 }
 
 void Platformer::render()
