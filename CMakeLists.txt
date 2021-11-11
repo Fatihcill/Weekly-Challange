@@ -20,8 +20,11 @@ add_executable(${PROJECT_NAME}
   "src/Entities/Player.cpp"  
   "src/Entities/Coin.cpp"  
   
-  "src/Entities/Enemies/Mushroom.cpp"  
   "src/Entities/Enemies/Enemy.cpp"  
+  "src/Entities/Enemies/Mushroom.cpp"  
+  "src/Entities/Enemies/Worm.cpp"  
+  "src/Entities/Enemies/Fly.cpp"  
+  "src/Entities/Enemies/Slime.cpp"  
 
   "src/EntityManagers/AnimationManager.cpp"  
   "src/EntityManagers/CameraManager2D.cpp"  
