@@ -56,4 +56,6 @@ Tested in;
     - Tileson Example : [raylib-tileson](https://github.com/RobLoach/raylib-tileson)
 
 - Assets: [Metroidvania](https://o-lobster.itch.io/platformmetroidvania-pixel-art-asset-pack)
-
+---
+### Warning
+Unfortunately, we do not continue to do weekly challenges that's why I continue to develop platformer game here [here](https://github.com/Fatihcil16/raylib-2dplatformer)
